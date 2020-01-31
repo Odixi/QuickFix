@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlatformingPlayer : MonoBehaviour
 {
-    public float Acceleration = 10f;
+    public float AccelerationForce = 10f;
+    public float MaxSpeed = 5f;
     public float JumpForce = 1f;
     public float MovementFloatiness = 1f;
     public int PlayerNumber;
@@ -45,11 +46,11 @@ public class PlatformingPlayer : MonoBehaviour
     void Move()
     {
         float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
-
-        rigidbody.AddForce(new Vector2(inputX * Acceleration, 0));
-        if (inputX == 0)
+        print(inputX);
+        if ((rigidbody.velocity.x < MaxSpeed && inputX > 0) || (rigidbody.velocity.x > -MaxSpeed && inputX < 0))
         {
-            rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * (1 / MovementFloatiness);
+            rigidbody.AddForce(new Vector2(inputX * AccelerationForce, 0));
         }
+        if (inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
     }
 }

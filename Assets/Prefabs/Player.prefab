@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5757245989167201947}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 5757245989508928164}
   m_Father: {fileID: 0}
@@ -118,9 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878ccee8ac3820345abe6420fd8e5a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acceleration: 10
+  AccelerationForce: 10
+  MaxSpeed: 5
   JumpForce: 7
-  MovementFloatiness: 1
+  MovementFloatiness: 0.1
   PlayerNumber: 1
   Feet: {fileID: 5757245989508928164}
 --- !u!58 &5757245989167201946
