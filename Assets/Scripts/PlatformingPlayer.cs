@@ -45,11 +45,10 @@ public class PlatformingPlayer : MonoBehaviour
     void Move()
     {
         float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
-        rigidbody.AddForce(new Vector2(inputX * Acceleration, 0));
 
+        rigidbody.AddForce(new Vector2(inputX * Acceleration, 0));
         if (inputX == 0)
         {
-            print("apply drag");
             rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * (1 / MovementFloatiness);
         }
     }
