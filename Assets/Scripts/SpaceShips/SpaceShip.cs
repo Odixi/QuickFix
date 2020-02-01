@@ -11,7 +11,25 @@ public class SpaceShip : MonoBehaviour
     private ShipBase BasePart;
     public int PlayerNumber => BasePart.PlayerNumber;
     // Are we building the ship or using it?
-    public bool IsFunctional = false;
+    private bool isFunctional = false;
+    public bool IsFunctional
+    {
+        get => isFunctional;
+        set
+        {
+            isFunctional = value;
+            if (value)
+            {
+                foreach(var c in colliders)
+                {
+                    if (c != null)
+                    {
+                        c.enabled = true;
+                    }
+                }
+            }
+        }
+    }
     // 4,4 is the center part
     private ShipPart[,] parts = new ShipPart[9,9];
     private BoxCollider2D[,] colliders = new BoxCollider2D[9, 9];
@@ -44,7 +62,7 @@ public class SpaceShip : MonoBehaviour
             colliders[x, y] = gameObject.AddComponent<BoxCollider2D>();
             colliders[x, y].size = new Vector2(colliderSize, colliderSize);
             colliders[x,y].offset = new Vector3((x - 4) * colliderSize, (y - 4) * colliderSize );
-
+            colliders[x, y].enabled = false;
         }
     }
 
