@@ -9,6 +9,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float JumpForce = 1f;
     public float MovementFloatiness = 1f;
     public float ThrowForce = 5f;
+    public float MaxPickupDistance = 1f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -44,7 +45,6 @@ public class PlatformingPlayer : MonoBehaviour
         Move();
         if (carriedPart != null) CarryPart(carriedPart);
         if (Input.GetAxis("P" + PlayerNumber + "Action") > 0) {
-            print("pickup action");
             if (pickupButtonReleasedAfterLastAction)
             {
                 pickupButtonReleasedAfterLastAction = false;
@@ -80,6 +80,7 @@ public class PlatformingPlayer : MonoBehaviour
     void PickupPart(GameObject part)
     {
         carriedPart = part;
+        carriedPart.GetComponent<Rigidbody2D>().isKinematic = true;
         part.transform.SetParent(Hands);
     }
 
@@ -97,12 +98,17 @@ public class PlatformingPlayer : MonoBehaviour
             float closestPartDistance = Vector3.Distance(closestPart.transform.position, transform.position);
             if (partDistance < closestPartDistance) closestPart = part;
         }
-        PickupPart(closestPart);
+        if (Vector2.Distance(transform.position, closestPart.transform.position) < MaxPickupDistance)
+        {
+            PickupPart(closestPart);
+        }
     }
 
     void ThrowCarriedPart()
     {
         carriedPart.transform.SetParent(transform.parent);
+        carriedPart.GetComponent<Rigidbody2D>().isKinematic = false;
+        carriedPart.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         carriedPart.GetComponent<Rigidbody2D>().AddForce(lastMoveDirection * ThrowForce, ForceMode2D.Impulse);
         carriedPart = null;
     }
