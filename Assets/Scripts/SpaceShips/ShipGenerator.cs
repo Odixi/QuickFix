@@ -7,7 +7,7 @@ public class ShipGenerator : MonoBehaviour
     private const float ActionInterval = 0.15f;
     public const float ShipPartSize = 0.7f;
 
-    public ShipPart[] parts;
+    public GameObject[] parts;
 
     [SerializeField]
     private int PlayerNumber;
@@ -22,19 +22,11 @@ public class ShipGenerator : MonoBehaviour
     [SerializeField]
     private PartPlacingIndicator partPlacingIndicator;
 
+
     private bool isPlacing = false;
 
     private float timeFromHorizontalAction = ActionInterval;
     private float timeFromVerticalAction = ActionInterval;
-
-    private void Start()
-    {
-        // testing
-        var p = Instantiate(parts[0]);
-        p.transform.parent = ship.transform;
-        StartPlacingPart(p);
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -42,7 +34,6 @@ public class ShipGenerator : MonoBehaviour
         // Handle input
         if (isPlacing)
         {
-
             if (selectedX == -1)    selectedX = 4;
             if (selectedY == -1)    selectedY = 4;
 
@@ -95,6 +86,8 @@ public class ShipGenerator : MonoBehaviour
             {
                 ship.AddPart(selectedX, selectedY, CurrentPlacingPart);
                 isPlacing = false;
+                player.IsPlacingPart = false;
+                partPlacingIndicator.gameObject.SetActive(false);
             }
         }
     }
@@ -104,6 +97,7 @@ public class ShipGenerator : MonoBehaviour
         CurrentPlacingPart = partToPlace;
         //CurrentPlacingPart.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         isPlacing = true;
+        partPlacingIndicator.gameObject.SetActive(true);
     }
 
     private void ChangeSelection(int x, int y)
@@ -112,7 +106,8 @@ public class ShipGenerator : MonoBehaviour
         selectedY = y;
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -123,8 +118,10 @@ public class ShipGenerator : MonoBehaviour
                 if (part != null)
                 {
                     var type = part.GetComponent<Throwable>().type;
-                    StartPlacingPart(parts[(int)type]);
-                    
+                    StartPlacingPart(Instantiate(parts[(int)type]).GetComponent<ShipPart>());
+                    player.IsPlacingPart = true;
+                    player.rigidbody.velocity = Vector3.zero;
+                    Destroy(part);
                 }
             }
         }

@@ -22,33 +22,41 @@ public class PlatformingPlayer : MonoBehaviour
     public Transform Feet;
     public Transform Hands;
     public GameObject CarriedPart = null;
-    private Rigidbody2D rigidbody;
+    public bool IsPlacingPart = false;
+    public Rigidbody2D rigidbody;
     private bool jumpUsed;
     private bool jumpButtonReleased = true;
     private bool kickButtonReleased = true;
     private bool pickupButtonReleasedAfterLastAction = true;
     private Vector2 lastFacingDirection = Vector2.right;
+    private Animator animator;
 
     private bool isGrounded => Physics2D.CircleCast(transform.position, FeetCheckRadius, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
 
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        if (IsPlacingPart)
+        {
+            return;
+        }
+
         float inputY = Input.GetAxis("P" + PlayerNumber + "Jump");
         float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
 
         bool ascending = !isGrounded && rigidbody.velocity.y > 1f;
         bool descending = !isGrounded && rigidbody.velocity.y < -1f;
         bool moving = !ascending && !descending && inputX != 0;
-        gameObject.GetComponent<Animator>().SetBool("Ascending", ascending);
-        gameObject.GetComponent<Animator>().SetBool("Descending", descending);
-        
-        gameObject.GetComponent<Animator>().SetBool("Moving", moving);
-        gameObject.GetComponent<Animator>().speed = moving ? Mathf.Max(0.5f, Mathf.Abs(rigidbody.velocity.x) / 4) : 1;
+        animator.SetBool("Ascending", ascending);
+        animator.SetBool("Descending", descending);
+
+        animator.SetBool("Moving", moving);
+        animator.speed = moving ? Mathf.Max(0.5f, Mathf.Abs(rigidbody.velocity.x) / 4) : 1;
         int playerFlip = PlayerNumber == 1 ? 1 : -1;
         if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX * playerFlip > 0;
 
@@ -169,6 +177,7 @@ public class PlatformingPlayer : MonoBehaviour
     {
         CarriedPart = part;
         CarriedPart.GetComponent<Rigidbody2D>().isKinematic = true;
+        CarriedPart.GetComponent<BoxCollider2D>().enabled = false;
         part.transform.SetParent(Hands);
     }
 
@@ -206,10 +215,13 @@ public class PlatformingPlayer : MonoBehaviour
     void ThrowCarriedPart()
     {
         CarriedPart.transform.SetParent(transform.parent);
-        CarriedPart.GetComponent<Rigidbody2D>().isKinematic = false;
-        CarriedPart.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        CarriedPart.GetComponent<Rigidbody2D>().AddForce(lastFacingDirection * ThrowForce, ForceMode2D.Impulse);
+        var rb = CarriedPart.GetComponent<Rigidbody2D>();
+        rb.isKinematic = false;
+        rb.velocity = Vector2.zero;
+        rb.AddForce(lastFacingDirection * ThrowForce, ForceMode2D.Impulse);
         CarriedPart.GetComponent<Throwable>().WasThrown = true;
+        CarriedPart.GetComponent<BoxCollider2D>().enabled = true;
+
         CarriedPart = null;
     }
 
@@ -220,6 +232,7 @@ public class PlatformingPlayer : MonoBehaviour
         CarriedPart.GetComponent<Rigidbody2D>().isKinematic = false;
         CarriedPart.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         CarriedPart.GetComponent<Rigidbody2D>().AddForce(Vector2.up * DropForce, ForceMode2D.Impulse);
+        CarriedPart.GetComponent<BoxCollider2D>().enabled = true;
         CarriedPart = null;
     }
 }
