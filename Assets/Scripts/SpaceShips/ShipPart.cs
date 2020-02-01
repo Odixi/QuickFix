@@ -19,7 +19,21 @@ public enum ConnectionPoints{
 
 public class ShipPart : MonoBehaviour
 {
-    public SpaceShip MotherShip;
+    private SpaceShip motherShip;
+    // When we assign the mother ship to this guy we know what 
+    public SpaceShip MotherShip {
+        get
+        {
+            return motherShip;
+        }set
+        {
+            motherShip = value;
+            for (int i = 0; i < GraphicsGameObjects.Length; i++)
+            {
+                GraphicsGameObjects[i].SetActive(i == motherShip.PlayerNumber);
+            }
+        }
+    }
     public int Health = 3;
     public int CollisionDamage = 1;
     public bool CanRotate45 = false;
@@ -28,7 +42,29 @@ public class ShipPart : MonoBehaviour
     public int X = -1;
     public int Y = -1;
 
+    // 0 = neutral 1 = player 1 and 2 = palyer2
+    public GameObject[] GraphicsGameObjects;
+
     public EventHandler OnDestroyed;
+
+    public virtual void Start()
+    {
+        if (motherShip != null)
+        {
+            for (int i = 0; i < GraphicsGameObjects.Length; i++)
+            {
+                GraphicsGameObjects[i].SetActive(i == motherShip.PlayerNumber);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < GraphicsGameObjects.Length; i++)
+            {
+                GraphicsGameObjects[i].SetActive(i == 0);
+            }
+        }
+
+    }
 
     public void Explode()
     {
