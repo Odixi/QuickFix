@@ -23,6 +23,7 @@ public class SpaceShip : MonoBehaviour
 
     public void ApplyThrust(float amount, Vector2 position, Vector2 direction)
     {
+        Debug.DrawLine(position, position + direction*amount);
         rigidbody.AddForceAtPosition(direction.normalized * amount, position);
     }
 
@@ -36,13 +37,13 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
-    public void SetPiecesNonKinematic()
+    public void SetPiecesNonStatic()
     {
         foreach(var part in parts)
         {
             if (part != null)
             {
-                part.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                part.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             }
         }
     }
@@ -151,28 +152,28 @@ public class SpaceShip : MonoBehaviour
             parts[x,y] == null && (
             (y < 8 &&          
         points.HasFlag(ConnectionPoints.Up) &&  
-        parts[x,     y + 1] != null && parts[x,     y + 1].ConnectionPoints.HasFlag(ConnectionPoints.Down)) ||
+        parts[x,     y + 1] != null && parts[x,     y + 1].CanHostPoints.HasFlag(ConnectionPoints.Down)) ||
             (y < 8 && x < 8 && 
         points.HasFlag(ConnectionPoints.UpRight) && 
-        parts[x + 1, y + 1] != null && parts[x + 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownLeft)) ||
+        parts[x + 1, y + 1] != null && parts[x + 1, y + 1].CanHostPoints.HasFlag(ConnectionPoints.DownLeft)) ||
             (x < 8 && 
         points.HasFlag(ConnectionPoints.Right) && 
-        parts[x + 1, y    ] != null && parts[x + 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Left)) ||
+        parts[x + 1, y    ] != null && parts[x + 1, y    ].CanHostPoints.HasFlag(ConnectionPoints.Left)) ||
             (y > 0 && x < 8 && 
         points.HasFlag(ConnectionPoints.DownRight) && 
-        parts[x + 1, y - 1] != null && parts[x + 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpLeft)) ||
+        parts[x + 1, y - 1] != null && parts[x + 1, y - 1].CanHostPoints.HasFlag(ConnectionPoints.UpLeft)) ||
             (y > 0 && 
         points.HasFlag(ConnectionPoints.Down) && 
-        parts[x,     y - 1] != null && parts[x,     y - 1].ConnectionPoints.HasFlag(ConnectionPoints.Up)) ||
+        parts[x,     y - 1] != null && parts[x,     y - 1].CanHostPoints.HasFlag(ConnectionPoints.Up)) ||
             (y > 0 && x > 0 &&
         points.HasFlag(ConnectionPoints.DownLeft) && 
-        parts[x - 1, y - 1] != null && parts[x - 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpRight)) ||
+        parts[x - 1, y - 1] != null && parts[x - 1, y - 1].CanHostPoints.HasFlag(ConnectionPoints.UpRight)) ||
             (x > 0 &&
         points.HasFlag(ConnectionPoints.Left) && 
-        parts[x - 1, y    ] != null && parts[x - 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Right)) ||
+        parts[x - 1, y    ] != null && parts[x - 1, y    ].CanHostPoints.HasFlag(ConnectionPoints.Right)) ||
             (y < 8 && x > 0 &&
         points.HasFlag(ConnectionPoints.UpLeft) && 
-        parts[x - 1, y + 1] != null && parts[x - 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownRight)));
+        parts[x - 1, y + 1] != null && parts[x - 1, y + 1].CanHostPoints.HasFlag(ConnectionPoints.DownRight)));
 
     
 

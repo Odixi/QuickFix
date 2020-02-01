@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Rigidbody2D>().velocity = transform.forward * Speed;
+        GetComponent<Rigidbody2D>().velocity = transform.up * Speed;
     }
 
     private void Update()
@@ -20,13 +20,13 @@ public class Bullet : MonoBehaviour
         timeLived += Time.deltaTime;
         if (timeLived > TimeAlive)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // TODO handle damage
-        Destroy(this);
+        Destroy(gameObject);
     }
 }
