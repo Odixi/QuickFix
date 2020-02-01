@@ -127,6 +127,8 @@ MonoBehaviour:
   MaxPickupDistance: 1
   KickDistance: 0.5
   KickForce: 10
+  DropForce: 2
+  ThrowableMinVelocityToDrop: 1
   PlayerNumber: 1
   Feet: {fileID: 5757245989508928164}
   Hands: {fileID: 3921039530133958833}

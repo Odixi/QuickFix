@@ -14,6 +14,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float KickDistance = 1f;
     public float KickForce = 5f;
     public float DropForce = 2f;
+    public float ThrowableMinVelocityToDrop = 2f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -57,6 +58,14 @@ public class PlatformingPlayer : MonoBehaviour
                 else ThrowCarriedPart();
             }
         } else pickupButtonReleasedAfterLastAction = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < ThrowableMinVelocityToDrop) return;
+        if (collision.gameObject.tag != "Ship Part") return;
+        if (!collision.gameObject.GetComponent<Throwable>().WasThrown) return;
+        DropCarriedPart();
     }
 
     void Jump()
@@ -183,6 +192,7 @@ public class PlatformingPlayer : MonoBehaviour
         CarriedPart.GetComponent<Rigidbody2D>().isKinematic = false;
         CarriedPart.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         CarriedPart.GetComponent<Rigidbody2D>().AddForce(lastFacingDirection * ThrowForce, ForceMode2D.Impulse);
+        CarriedPart.GetComponent<Throwable>().WasThrown = true;
         CarriedPart = null;
     }
 
