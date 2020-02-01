@@ -15,6 +15,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float KickForce = 5f;
     public float DropForce = 2f;
     public float ThrowableMinVelocityToDrop = 2f;
+    public float MaxVelocity = 20f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -58,6 +59,7 @@ public class PlatformingPlayer : MonoBehaviour
                 else ThrowCarriedPart();
             }
         } else pickupButtonReleasedAfterLastAction = true;
+        rigidbody.velocity = Vector2.ClampMagnitude(rigidbody.velocity, MaxVelocity);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
