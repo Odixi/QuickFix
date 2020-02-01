@@ -8,10 +8,24 @@ using UnityEngine;
 public class ShipBase : ShipPart
 {
     public int PlayerNumber = 1;
+    public GameObject Player1PilotInside;
+    public GameObject Player2PilotInside;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         ConnectionPoints = ConnectionPoints.All;
+    }
+
+    public void SetPilotsInside()
+    {
+        foreach(var g in GraphicsGameObjects)
+        {
+            g.SetActive(false);
+        }
+        Player1PilotInside.SetActive(PlayerNumber == 1);
+        Player1PilotInside.SetActive(PlayerNumber == 2);
+
     }
 
     // TODO destroy ship when this part blows
