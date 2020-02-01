@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShipGenerator : MonoBehaviour
 {
-    private const float ActionInterval = 0.25f;
-    private const float ShipPartSize = 5;
+    private const float ActionInterval = 0.15f;
+    private const float ShipPartSize = 0.2f;
 
     public ShipPart testPart;
 
@@ -17,6 +17,8 @@ public class ShipGenerator : MonoBehaviour
     private int selectedY = -1;
 
     private ShipPart CurrentPlacingPart = null;
+    [SerializeField]
+    private PartPlacingIndicator partPlacingIndicator;
 
     private bool isPlacing = false;
 
@@ -44,39 +46,48 @@ public class ShipGenerator : MonoBehaviour
             var hor = Input.GetAxis($"P{PlayerNumber}Horizontal");
             var ver = Input.GetAxis($"P{PlayerNumber}Vertical");
 
-            if (Mathf.Abs(hor) > 0.4f &&  timeFromHorizontalAction > ActionInterval)
+            if (Mathf.Abs(hor) > 0.2f &&  timeFromHorizontalAction > ActionInterval)
             {
                 var newX = hor > 0 ? Mathf.Min(selectedX+1, 8) : Mathf.Max(selectedX-1, 0);
-                if (ship.ValidatePartPosition(newX, selectedY, CurrentPlacingPart.ConnectionPoints))
-                {
-                    selectedX = newX;
-                }
+                selectedX = newX;
+                
                 timeFromHorizontalAction = 0;
             }
-            if (Mathf.Abs(ver) > 0.4f && timeFromVerticalAction > ActionInterval)
+            if (Mathf.Abs(ver) > 0.2f && timeFromVerticalAction > ActionInterval)
             {
                 var newY = ver > 0 ? Mathf.Min(selectedY + 1, 8) : Mathf.Max(selectedY - 1, 0);
-                if (ship.ValidatePartPosition(selectedX, newY, CurrentPlacingPart.ConnectionPoints))
-                {
-                    selectedY = newY;
-                }
+                selectedY = newY;
+                
                 timeFromVerticalAction = 0;
+            }
+            if (Input.GetButtonDown($"P{PlayerNumber}Action2"))
+            {
+                if (CurrentPlacingPart != null)
+                {
+                    CurrentPlacingPart.Rotate90(true);
+                }
             }
 
             if (CurrentPlacingPart != null)
             {
-                CurrentPlacingPart.transform.position = transform.position + new Vector3(
-                    (selectedX-4)*ShipPartSize, (selectedY - 4) * ShipPartSize
+                Vector3 nPos = transform.position + new Vector3(
+                    (selectedX - 4) * ShipPartSize, (selectedY - 4) * ShipPartSize
                     );
+                CurrentPlacingPart.transform.position = nPos;
+                partPlacingIndicator.transform.position = nPos;
+                partPlacingIndicator.SetAllowedState(ship.ValidatePartPosition(selectedX, selectedY, CurrentPlacingPart.ConnectionPoints));
             }
 
-            if (Input.GetButton($"P{PlayerNumber}Action"))
+
+            if (Input.GetButtonDown($"P{PlayerNumber}Action") && ship.ValidatePartPosition(selectedX, selectedY, CurrentPlacingPart.ConnectionPoints))
             {
                 ship.AddPart(selectedX, selectedY, CurrentPlacingPart);
                 isPlacing = false;
 
                 // testing
-                StartPlacingPart(Instantiate(testPart));
+                var p = Instantiate(testPart);
+                p.transform.parent = ship.transform;
+                StartPlacingPart(p);
             }
         }
     }

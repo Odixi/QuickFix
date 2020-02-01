@@ -19,6 +19,7 @@ public enum ConnectionPoints{
 
 public class ShipPart : MonoBehaviour
 {
+
     public ConnectionPoints ConnectionPoints = 0;
     public int X = -1;
     public int Y = -1;
@@ -29,6 +30,26 @@ public class ShipPart : MonoBehaviour
     {
         // TODO blow up
         Destroy(this);
+    }
+
+    public void Rotate90(bool clockwise)
+    {
+        float angle = clockwise ? 90 : -90;
+        this.transform.Rotate(Vector3.forward, angle);
+        int overflowBits = 0;
+        // Some magical shit
+        if (!clockwise)
+        {
+            overflowBits = (int)((ConnectionPoints.Up & ConnectionPoints) | (ConnectionPoints.UpRight & ConnectionPoints));
+            ConnectionPoints = (ConnectionPoints)(((int)ConnectionPoints) >> 2);
+            ConnectionPoints = (ConnectionPoints)((int)ConnectionPoints | (overflowBits << 6));
+        }
+        else
+        {
+            overflowBits = (int)((ConnectionPoints.Left & ConnectionPoints) | (ConnectionPoints.UpLeft & ConnectionPoints));
+            ConnectionPoints = (ConnectionPoints)(((int)ConnectionPoints) << 2);
+            ConnectionPoints = (ConnectionPoints)((int)ConnectionPoints | (overflowBits >> 6));
+        }
     }
 
     void OnDestroy()

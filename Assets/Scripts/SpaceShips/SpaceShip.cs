@@ -125,6 +125,7 @@ public class SpaceShip : MonoBehaviour
 
     // Validate if position is valid
     public bool ValidatePartPosition(int x, int y, ConnectionPoints points) =>
+            parts[x,y] == null &&
             (y < 8 &&          parts[x,     y + 1] != null && parts[x,     y + 1].ConnectionPoints.HasFlag(ConnectionPoints.Down)) ||
             (y < 8 && x < 8 && parts[x + 1, y + 1] != null && parts[x + 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownLeft)) ||
             (x < 8 &&          parts[x + 1, y    ] != null && parts[x + 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Left)) ||

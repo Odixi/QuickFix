@@ -7,7 +7,12 @@ using UnityEngine;
 /// </summary>
 public class ShipBase : ShipPart
 {
+    void Start()
+    {
+        ConnectionPoints = ConnectionPoints.All;
+    }
+
     // TODO destroy ship when this part blows
-    
+
 
 }

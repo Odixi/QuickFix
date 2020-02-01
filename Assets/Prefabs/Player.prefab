@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5757245989167201946}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,7 @@ MonoBehaviour:
   JumpForce: 4
   MovementFloatiness: 0.1
   ThrowForce: 10
+  MaxPickupDistance: 1
   PlayerNumber: 1
   Feet: {fileID: 5757245989508928164}
   Hands: {fileID: 3921039530133958833}
