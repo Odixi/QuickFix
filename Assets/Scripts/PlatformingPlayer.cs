@@ -17,6 +17,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float ThrowableMinVelocityToDrop = 2f;
     public float MaxVelocity = 20f;
     public float WallMinDistanceToMove = 0.3f;
+    public float FeetCheckRadius = 0.5f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -28,7 +29,7 @@ public class PlatformingPlayer : MonoBehaviour
     private bool pickupButtonReleasedAfterLastAction = true;
     private Vector2 lastFacingDirection = Vector2.right;
 
-    private bool isGrounded => Physics2D.Raycast(transform.position, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
+    private bool isGrounded => Physics2D.CircleCast(transform.position, FeetCheckRadius, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
 
     void Start()
     {
@@ -77,8 +78,8 @@ public class PlatformingPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < ThrowableMinVelocityToDrop) return;
         if (collision.gameObject.tag != "Ship Part") return;
+        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < ThrowableMinVelocityToDrop) return;
         if (!collision.gameObject.GetComponent<Throwable>().WasThrown) return;
         DropCarriedPart();
     }
@@ -159,21 +160,9 @@ public class PlatformingPlayer : MonoBehaviour
 
         if ((rigidbody.velocity.x < MaxSpeed && inputX > 0) || (rigidbody.velocity.x > -MaxSpeed && inputX < 0))
         {
-            Vector2 movementDirection = new Vector2(rigidbody.velocity.x, 0).normalized;
-            Vector2 inputDirection = new Vector2(inputX, 0).normalized;
-            if (DirectionIsClear(inputDirection))
-            {
-                rigidbody.AddForce(new Vector2(inputX * AccelerationForce, 0));
-            }
+            rigidbody.AddForce(new Vector2(inputX, 0).normalized * AccelerationForce);
         }
         if (inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
-    }
-
-    bool DirectionIsClear(Vector2 direction)
-    {
-        float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
-        Collider2D hitCollider = Physics2D.Raycast(transform.position, new Vector2(inputX, 0), WallMinDistanceToMove).collider;
-        return hitCollider == null || hitCollider.gameObject.tag != "Map";
     }
     
     void PickupPart(GameObject part)
