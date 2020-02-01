@@ -38,15 +38,15 @@ public class ShipPart : MonoBehaviour
         this.transform.Rotate(Vector3.forward, angle);
         int overflowBits = 0;
         // Some magical shit
-        if (clockwise)
+        if (!clockwise)
         {
-            overflowBits = (int)(ConnectionPoints.Left | ConnectionPoints.UpLeft);
+            overflowBits = (int)((ConnectionPoints.Up & ConnectionPoints) | (ConnectionPoints.UpRight & ConnectionPoints));
             ConnectionPoints = (ConnectionPoints)(((int)ConnectionPoints) >> 2);
             ConnectionPoints = (ConnectionPoints)((int)ConnectionPoints | (overflowBits << 6));
         }
         else
         {
-            overflowBits = (int)(ConnectionPoints.Up | ConnectionPoints.UpRight);
+            overflowBits = (int)((ConnectionPoints.Left & ConnectionPoints) | (ConnectionPoints.UpLeft & ConnectionPoints));
             ConnectionPoints = (ConnectionPoints)(((int)ConnectionPoints) << 2);
             ConnectionPoints = (ConnectionPoints)((int)ConnectionPoints | (overflowBits >> 6));
         }
