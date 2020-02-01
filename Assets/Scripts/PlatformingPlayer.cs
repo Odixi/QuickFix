@@ -93,6 +93,7 @@ public class PlatformingPlayer : MonoBehaviour
         target.transform.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         target.transform.GetComponent<Rigidbody2D>().AddForce(kickDirection * KickForce, ForceMode2D.Impulse);
         if (target.tag == "Player") target.GetComponent<PlatformingPlayer>().DropCarriedPart();
+        if (target.tag == "Ship Part") target.GetComponent<Throwable>().WasThrown = true;
     }
 
     List<GameObject> KickableObjects()
