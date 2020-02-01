@@ -100,7 +100,7 @@ public class ShipGenerator : MonoBehaviour
                 p.transform.parent = ship.transform;
                 StartPlacingPart(p);
             }
-
+            // Tests
             if (Input.GetKeyDown(KeyCode.A))
             {
                 Destroy(CurrentPlacingPart.gameObject);

@@ -52,6 +52,7 @@ public class SpaceShip : MonoBehaviour
     private void RemovePart(int x, int y)
     {
         parts[x, y] = null;
+        CheckIntegrityOfShip();
         // TODO check wether others should die as well
         // TODO check if was center part
     }

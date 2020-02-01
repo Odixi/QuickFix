@@ -26,7 +26,13 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // TODO handle damage
+        ShipPart other;
+        // Damage whatever was hit
+        if (collision.gameObject.TryGetComponent<ShipPart>(out other))
+        {
+            // TODO if type of "melee" part take no damage
+            other.TakeDamage(Damage);
+        }
         Destroy(gameObject);
     }
 }
