@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipGenerator : MonoBehaviour
 {
     private const float ActionInterval = 0.15f;
-    private float ShipPartSize = 0.7f;
+    public const float ShipPartSize = 0.7f;
 
     public ShipPart[] testParts;
 
@@ -107,7 +107,7 @@ public class ShipGenerator : MonoBehaviour
                 Destroy(partPlacingIndicator.gameObject);
                 isPlacing = false;
                 ship.IsFunctional = true;
-                ship.SetPiecesNonStatic();
+                //ship.SetPiecesNonStatic();
             }
         }
     }
@@ -115,7 +115,7 @@ public class ShipGenerator : MonoBehaviour
     public void StartPlacingPart(ShipPart partToPlace) // callback when ready?
     {
         CurrentPlacingPart = partToPlace;
-        CurrentPlacingPart.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        //CurrentPlacingPart.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         isPlacing = true;
     }
 
