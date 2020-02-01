@@ -19,7 +19,7 @@ public class ShipThruster : ShipPart
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (MotherShip != null && MotherShip.IsFunctional)
         {

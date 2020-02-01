@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SpaceShip : MonoBehaviour
 {
+    public float colliderSize = ShipGenerator.ShipPartSize;
+
     [SerializeField]
     private ShipBase BasePart;
     public int PlayerNumber => BasePart.PlayerNumber;
@@ -12,18 +14,23 @@ public class SpaceShip : MonoBehaviour
     public bool IsFunctional = false;
     // 4,4 is the center part
     private ShipPart[,] parts = new ShipPart[9,9];
+    private BoxCollider2D[,] colliders = new BoxCollider2D[9, 9];
 
     private Rigidbody2D rigidbody;
 
     private void Start()
     {
         parts[4, 4] = BasePart;
+        colliders[4, 4] = gameObject.AddComponent<BoxCollider2D>();
+        colliders[4, 4].size = new Vector2(colliderSize, colliderSize);
+        colliders[4, 4].offset = new Vector3(0, 0);
+        BasePart.MotherShip = this;
+        BasePart.OnDestroyed += delegate { RemovePart(4, 4); };
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
     public void ApplyThrust(float amount, Vector2 position, Vector2 direction)
     {
-        Debug.DrawLine(position, position + direction*amount);
         rigidbody.AddForceAtPosition(direction.normalized * amount, position);
     }
 
@@ -34,17 +41,10 @@ public class SpaceShip : MonoBehaviour
             parts[x, y] = part;
             part.MotherShip = this;
             part.OnDestroyed += delegate { RemovePart(x, y); };
-        }
-    }
+            colliders[x, y] = gameObject.AddComponent<BoxCollider2D>();
+            colliders[x, y].size = new Vector2(colliderSize, colliderSize);
+            colliders[x,y].offset = new Vector3((x - 4) * colliderSize, (y - 4) * colliderSize );
 
-    public void SetPiecesNonStatic()
-    {
-        foreach(var part in parts)
-        {
-            if (part != null)
-            {
-                part.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
-            }
         }
     }
 
@@ -52,9 +52,28 @@ public class SpaceShip : MonoBehaviour
     private void RemovePart(int x, int y)
     {
         parts[x, y] = null;
-        CheckIntegrityOfShip();
-        // TODO check wether others should die as well
-        // TODO check if was center part
+        Destroy(colliders[x, y]);
+        // Center is the core!
+        if (x == 4 && y == 4)
+        {
+            DestroyWholeShip();
+        }
+        else
+        {
+            CheckIntegrityOfShip();
+        }
+    }
+
+    private void DestroyWholeShip()
+    {
+        foreach(var p in parts)
+        {
+            if (p != null)
+            {
+                p.Explode();
+            }
+        }
+        Destroy(gameObject);
     }
 
     // Check wether the ship has floating parts and destroy them
@@ -176,6 +195,21 @@ public class SpaceShip : MonoBehaviour
         points.HasFlag(ConnectionPoints.UpLeft) && 
         parts[x - 1, y + 1] != null && parts[x - 1, y + 1].CanHostPoints.HasFlag(ConnectionPoints.DownRight)));
 
-    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                if (colliders[i, j] == collision.otherCollider)
+                {
+                    parts[i, j].TakeDamage(1);
+                    goto BREAK;
+                }
+            }
+        }
+        print("not found");
+    BREAK:;
+    }
 
 }
