@@ -20,7 +20,7 @@ public class PlatformingPlayer : MonoBehaviour
     private bool pickupButtonReleasedAfterLastAction = true;
     private Vector2 lastFacingDirection = Vector2.right;
 
-    private bool isGrounded => Physics2D.Raycast(Feet.position, Vector2.down, 0.02f).collider != null;
+    private bool isGrounded => Physics2D.Raycast(transform.position, Vector2.down * Vector2.Distance(transform.position, Feet.position), 0.5f).collider != null;
 
     void Start()
     {
