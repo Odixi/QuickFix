@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ship Part
   - Map
+  - Player 1 Collision Disabler
+  - Player 1 Collision Enabler
   layers:
   - Default
   - TransparentFX
@@ -15,11 +17,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ignore Player 1
+  - Ignore Player 2
+  - Ignore Players
+  - Player 1
+  - Player 2
   - 
   - 
   - 
