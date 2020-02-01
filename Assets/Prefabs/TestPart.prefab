@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6710d9867f196d47abc86f223c3a83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConnectionPoints: -1
+  ConnectionPoints: 16
   X: -1
   Y: -1
 --- !u!1 &1944748407332729224
