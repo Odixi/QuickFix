@@ -48,7 +48,8 @@ public class PlatformingPlayer : MonoBehaviour
         
         gameObject.GetComponent<Animator>().SetBool("Moving", moving);
         gameObject.GetComponent<Animator>().speed = moving ? Mathf.Max(0.5f, Mathf.Abs(rigidbody.velocity.x) / 4) : 1;
-        if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX > 0;
+        int playerFlip = PlayerNumber == 1 ? 1 : -1;
+        if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX * playerFlip > 0;
 
         if (inputY == 0) jumpButtonReleased = true;
         if (isGrounded)
