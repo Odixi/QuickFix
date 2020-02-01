@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShipThruster : ShipPart
 {
     public float ThrustForce = 20;
+    public ThrusterAnimation animation;
 
     public Vector2 Direction
     {
@@ -29,6 +30,7 @@ public class ShipThruster : ShipPart
             var dot = Mathf.Max(Vector2.Dot(Direction, force), 0);
 
             MotherShip.ApplyThrust(dot * ThrustForce, transform.position, transform.up);
+            animation.TargetSize = dot;
         }
     }
 }
