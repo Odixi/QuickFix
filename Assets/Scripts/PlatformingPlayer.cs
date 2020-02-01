@@ -78,8 +78,8 @@ public class PlatformingPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < ThrowableMinVelocityToDrop) return;
         if (collision.gameObject.tag != "Ship Part") return;
+        if (collision.gameObject.GetComponent<Rigidbody2D>().velocity.magnitude < ThrowableMinVelocityToDrop) return;
         if (!collision.gameObject.GetComponent<Throwable>().WasThrown) return;
         DropCarriedPart();
     }
