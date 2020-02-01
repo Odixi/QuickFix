@@ -8,6 +8,6 @@ public class PartPlacingIndicator : MonoBehaviour
 
     public void SetAllowedState(bool allow)
     {
-        spriteRenderer.color = allow ? Color.green : Color.red;
+        spriteRenderer.color = allow ? new Color(1,1,1,0.34f): new Color(1,0,0,0.4f);
     }
 }

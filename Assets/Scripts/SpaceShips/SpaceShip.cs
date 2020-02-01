@@ -7,12 +7,23 @@ public class SpaceShip : MonoBehaviour
 {
     [SerializeField]
     private ShipBase BasePart;
+    public int PlayerNumber => BasePart.PlayerNumber;
+    // Are we building the ship or using it?
+    public bool IsFunctional = false;
     // 4,4 is the center part
     private ShipPart[,] parts = new ShipPart[9,9];
+
+    private Rigidbody2D rigidbody;
 
     private void Start()
     {
         parts[4, 4] = BasePart;
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void ApplyThrust(float amount, Vector2 position, Vector2 direction)
+    {
+        rigidbody.AddForceAtPosition(direction.normalized * amount, position);
     }
 
     public void AddPart(int x, int y, ShipPart part)
@@ -20,7 +31,19 @@ public class SpaceShip : MonoBehaviour
         if (ValidatePartPosition(x, y, part.ConnectionPoints))
         {
             parts[x, y] = part;
+            part.MotherShip = this;
             part.OnDestroyed += delegate { RemovePart(x, y); };
+        }
+    }
+
+    public void SetPiecesNonKinematic()
+    {
+        foreach(var part in parts)
+        {
+            if (part != null)
+            {
+                part.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            }
         }
     }
 
@@ -125,15 +148,31 @@ public class SpaceShip : MonoBehaviour
 
     // Validate if position is valid
     public bool ValidatePartPosition(int x, int y, ConnectionPoints points) =>
-            parts[x,y] == null &&
-            (y < 8 &&          parts[x,     y + 1] != null && parts[x,     y + 1].ConnectionPoints.HasFlag(ConnectionPoints.Down)) ||
-            (y < 8 && x < 8 && parts[x + 1, y + 1] != null && parts[x + 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownLeft)) ||
-            (x < 8 &&          parts[x + 1, y    ] != null && parts[x + 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Left)) ||
-            (y > 0 && x < 8 && parts[x + 1, y - 1] != null && parts[x + 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpLeft)) ||
-            (y > 0 &&          parts[x,     y - 1] != null && parts[x,     y - 1].ConnectionPoints.HasFlag(ConnectionPoints.Up)) ||
-            (y > 0 && x > 0 && parts[x - 1, y - 1] != null && parts[x - 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpRight)) ||
-            (x > 0 &&          parts[x - 1, y    ] != null && parts[x - 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Right)) ||
-            (y < 8 && x > 0 && parts[x - 1, y + 1] != null && parts[x - 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownRight));
+            parts[x,y] == null && (
+            (y < 8 &&          
+        points.HasFlag(ConnectionPoints.Up) &&  
+        parts[x,     y + 1] != null && parts[x,     y + 1].ConnectionPoints.HasFlag(ConnectionPoints.Down)) ||
+            (y < 8 && x < 8 && 
+        points.HasFlag(ConnectionPoints.UpRight) && 
+        parts[x + 1, y + 1] != null && parts[x + 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownLeft)) ||
+            (x < 8 && 
+        points.HasFlag(ConnectionPoints.Right) && 
+        parts[x + 1, y    ] != null && parts[x + 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Left)) ||
+            (y > 0 && x < 8 && 
+        points.HasFlag(ConnectionPoints.DownRight) && 
+        parts[x + 1, y - 1] != null && parts[x + 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpLeft)) ||
+            (y > 0 && 
+        points.HasFlag(ConnectionPoints.Down) && 
+        parts[x,     y - 1] != null && parts[x,     y - 1].ConnectionPoints.HasFlag(ConnectionPoints.Up)) ||
+            (y > 0 && x > 0 &&
+        points.HasFlag(ConnectionPoints.DownLeft) && 
+        parts[x - 1, y - 1] != null && parts[x - 1, y - 1].ConnectionPoints.HasFlag(ConnectionPoints.UpRight)) ||
+            (x > 0 &&
+        points.HasFlag(ConnectionPoints.Left) && 
+        parts[x - 1, y    ] != null && parts[x - 1, y    ].ConnectionPoints.HasFlag(ConnectionPoints.Right)) ||
+            (y < 8 && x > 0 &&
+        points.HasFlag(ConnectionPoints.UpLeft) && 
+        parts[x - 1, y + 1] != null && parts[x - 1, y + 1].ConnectionPoints.HasFlag(ConnectionPoints.DownRight)));
 
     
 

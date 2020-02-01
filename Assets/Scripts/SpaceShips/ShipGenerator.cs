@@ -5,9 +5,9 @@ using UnityEngine;
 public class ShipGenerator : MonoBehaviour
 {
     private const float ActionInterval = 0.15f;
-    private const float ShipPartSize = 0.2f;
+    private float ShipPartSize = 0.7f;
 
-    public ShipPart testPart;
+    public ShipPart[] testParts;
 
     [SerializeField]
     private int PlayerNumber;
@@ -28,7 +28,7 @@ public class ShipGenerator : MonoBehaviour
     private void Start()
     {
         // testing
-        StartPlacingPart(Instantiate(testPart));
+        StartPlacingPart(Instantiate(testParts[0]));
     }
 
     // Update is called once per frame
@@ -46,14 +46,14 @@ public class ShipGenerator : MonoBehaviour
             var hor = Input.GetAxis($"P{PlayerNumber}Horizontal");
             var ver = Input.GetAxis($"P{PlayerNumber}Vertical");
 
-            if (Mathf.Abs(hor) > 0.2f &&  timeFromHorizontalAction > ActionInterval)
+            if (Mathf.Abs(hor) > 0.12f &&  timeFromHorizontalAction > ActionInterval)
             {
                 var newX = hor > 0 ? Mathf.Min(selectedX+1, 8) : Mathf.Max(selectedX-1, 0);
                 selectedX = newX;
                 
                 timeFromHorizontalAction = 0;
             }
-            if (Mathf.Abs(ver) > 0.2f && timeFromVerticalAction > ActionInterval)
+            if (Mathf.Abs(ver) > 0.12f && timeFromVerticalAction > ActionInterval)
             {
                 var newY = ver > 0 ? Mathf.Min(selectedY + 1, 8) : Mathf.Max(selectedY - 1, 0);
                 selectedY = newY;
@@ -64,7 +64,14 @@ public class ShipGenerator : MonoBehaviour
             {
                 if (CurrentPlacingPart != null)
                 {
-                    CurrentPlacingPart.Rotate90(true);
+                    if (CurrentPlacingPart.CanRotate45)
+                    {
+                        CurrentPlacingPart.Rotate45(true);
+                    }
+                    else
+                    {
+                        CurrentPlacingPart.Rotate90(true);
+                    }
                 }
             }
 
@@ -85,9 +92,17 @@ public class ShipGenerator : MonoBehaviour
                 isPlacing = false;
 
                 // testing
-                var p = Instantiate(testPart);
+                var part = testParts[(int)(Random.value * testParts.Length)];
+                var p = Instantiate(part);
                 p.transform.parent = ship.transform;
                 StartPlacingPart(p);
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                Destroy(CurrentPlacingPart);
+                isPlacing = false;
+                ship.IsFunctional = true;
             }
         }
     }
@@ -95,6 +110,7 @@ public class ShipGenerator : MonoBehaviour
     public void StartPlacingPart(ShipPart partToPlace) // callback when ready?
     {
         CurrentPlacingPart = partToPlace;
+        CurrentPlacingPart.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         isPlacing = true;
     }
 
