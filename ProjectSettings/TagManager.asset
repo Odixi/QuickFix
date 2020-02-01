@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ship Part
+  - Map
   layers:
   - Default
   - TransparentFX

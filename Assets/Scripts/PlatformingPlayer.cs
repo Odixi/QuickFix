@@ -16,6 +16,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float DropForce = 2f;
     public float ThrowableMinVelocityToDrop = 2f;
     public float MaxVelocity = 20f;
+    public float WallMinDistanceToMove = 0.3f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -146,11 +147,23 @@ public class PlatformingPlayer : MonoBehaviour
 
         if ((rigidbody.velocity.x < MaxSpeed && inputX > 0) || (rigidbody.velocity.x > -MaxSpeed && inputX < 0))
         {
-            rigidbody.AddForce(new Vector2(inputX * AccelerationForce, 0));
+            Vector2 movementDirection = new Vector2(rigidbody.velocity.x, 0).normalized;
+            Vector2 inputDirection = new Vector2(inputX, 0).normalized;
+            if (DirectionIsClear(inputDirection))
+            {
+                rigidbody.AddForce(new Vector2(inputX * AccelerationForce, 0));
+            }
         }
         if (inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
     }
 
+    bool DirectionIsClear(Vector2 direction)
+    {
+        float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
+        Collider2D hitCollider = Physics2D.Raycast(transform.position, new Vector2(inputX, 0), WallMinDistanceToMove).collider;
+        return hitCollider == null || hitCollider.gameObject.tag != "Map";
+    }
+    
     void PickupPart(GameObject part)
     {
         CarriedPart = part;
