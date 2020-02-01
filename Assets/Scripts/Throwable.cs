@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PartType
+{
+    Body = 0,
+    Thruster = 1,
+    Cannon = 2,
+    Tip = 3,
+    Wing = 4,
+    WingMirrored = 5
+}
+
 public class Throwable : MonoBehaviour
 {
     public bool WasThrown = false;
     // Reset WasThrown if speed is less than this
     public float ThrownResetSpeed = 1f;
+
+    public PartType type;
 
     private void Update()
     {

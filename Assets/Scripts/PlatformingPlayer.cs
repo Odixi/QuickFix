@@ -21,7 +21,7 @@ public class PlatformingPlayer : MonoBehaviour
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
-    GameObject CarriedPart = null;
+    public GameObject CarriedPart = null;
     private Rigidbody2D rigidbody;
     private bool jumpUsed;
     private bool jumpButtonReleased = true;
