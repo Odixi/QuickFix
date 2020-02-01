@@ -36,6 +36,17 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
+    public void SetPiecesNonKinematic()
+    {
+        foreach(var part in parts)
+        {
+            if (part != null)
+            {
+                part.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            }
+        }
+    }
+
     // Only called by callbacks from the parts when they die
     private void RemovePart(int x, int y)
     {

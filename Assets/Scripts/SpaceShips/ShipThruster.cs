@@ -10,7 +10,11 @@ public class ShipThruster : ShipPart
     {
         get
         {
-            return Vector2.zero;
+            if (MotherShip != null)
+            {
+                return MotherShip.transform.InverseTransformDirection(transform.forward).normalized;
+            }
+            return Vector2.up;
         }
     }
 
@@ -22,8 +26,9 @@ public class ShipThruster : ShipPart
             var ver = Input.GetAxis($"P{MotherShip.PlayerNumber}Vertical");
             Vector2 force = new Vector2(hor, ver);
             force = Vector2.ClampMagnitude(force, 1f);
+            var dot = Mathf.Max(Vector2.Dot(Direction, force), 0);
 
-
+            MotherShip.ApplyThrust(dot * ThrustForce, transform.position, Direction);
         }
     }
 }

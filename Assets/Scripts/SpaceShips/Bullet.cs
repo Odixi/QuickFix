@@ -10,6 +10,11 @@ public class Bullet : MonoBehaviour
 
     private float timeLived = 0;
 
+    private void Start()
+    {
+        GetComponent<Rigidbody2D>().velocity = transform.forward * Speed;
+    }
+
     private void Update()
     {
         timeLived += Time.deltaTime;

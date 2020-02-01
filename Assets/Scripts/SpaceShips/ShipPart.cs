@@ -23,7 +23,8 @@ public class ShipPart : MonoBehaviour
     public int Health = 3;
     public int CollisionDamage = 1;
     public bool CanRotate45 = false;
-    public ConnectionPoints ConnectionPoints = 0;
+    public ConnectionPoints ConnectionPoints = 0; // Where this part can connect from
+    public ConnectionPoints CanHostPoints = 0;  // Where this part can host connections
     public int X = -1;
     public int Y = -1;
 
