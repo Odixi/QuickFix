@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3180881444362202573}
   - component: {fileID: 7116822290767179121}
   - component: {fileID: 1106586240}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collision Enabler
   m_TagString: Player 1 Enabler
   m_Icon: {fileID: 0}
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 8849909236581769426}
   - component: {fileID: 8287222577591356486}
   - component: {fileID: 1740303146}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Collision Disabler
   m_TagString: Player 1 Disabler
   m_Icon: {fileID: 0}
