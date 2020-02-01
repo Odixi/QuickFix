@@ -7,10 +7,12 @@ public class ShipGenerator : MonoBehaviour
     private const float ActionInterval = 0.15f;
     public const float ShipPartSize = 0.7f;
 
-    public ShipPart[] testParts;
+    public ShipPart[] parts;
 
     [SerializeField]
     private int PlayerNumber;
+    [SerializeField]
+    private PlatformingPlayer player;
     [SerializeField]
     private SpaceShip ship;
     private int selectedX = -1;
@@ -28,7 +30,7 @@ public class ShipGenerator : MonoBehaviour
     private void Start()
     {
         // testing
-        var p = Instantiate(testParts[0]);
+        var p = Instantiate(parts[0]);
         p.transform.parent = ship.transform;
         StartPlacingPart(p);
 
@@ -93,21 +95,6 @@ public class ShipGenerator : MonoBehaviour
             {
                 ship.AddPart(selectedX, selectedY, CurrentPlacingPart);
                 isPlacing = false;
-
-                // testing
-                var part = testParts[(int)(Random.value * testParts.Length)];
-                var p = Instantiate(part);
-                p.transform.parent = ship.transform;
-                StartPlacingPart(p);
-            }
-            // Tests
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                Destroy(CurrentPlacingPart.gameObject);
-                Destroy(partPlacingIndicator.gameObject);
-                isPlacing = false;
-                ship.IsFunctional = true;
-                //ship.SetPiecesNonStatic();
             }
         }
     }
@@ -123,6 +110,23 @@ public class ShipGenerator : MonoBehaviour
     {
         selectedX = x;
         selectedY = y;
-        // update higlight
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            var player = collision.gameObject.GetComponent<PlatformingPlayer>();
+            if (player != null && player.PlayerNumber == PlayerNumber)
+            {
+                var part = player.CarriedPart;
+                if (part != null)
+                {
+                    var type = part.GetComponent<Throwable>().type;
+                    StartPlacingPart(parts[(int)type]);
+                    
+                }
+            }
+        }
     }
 }
