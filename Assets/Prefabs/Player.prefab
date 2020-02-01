@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AccelerationForce: 10
-  MaxSpeed: 5
-  JumpForce: 7
+  MaxSpeed: 4
+  JumpForce: 4
   MovementFloatiness: 0.1
   PlayerNumber: 1
   Feet: {fileID: 5757245989508928164}
