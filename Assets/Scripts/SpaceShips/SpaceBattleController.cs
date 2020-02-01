@@ -12,7 +12,9 @@ public class SpaceBattleController : MonoBehaviour
     //private SpaceShip Player2;
 
     [SerializeField]
-    private Bounds levelBounds;
+    private float y;
+    [SerializeField]
+    private float x;
 
     private void Update()
     {
@@ -23,11 +25,13 @@ public class SpaceBattleController : MonoBehaviour
 
     private void CheckAndTeleportSpaceShipOutOfBounds(SpaceShip ship)
     {
-        if (!levelBounds.Contains(ship.transform.position))
+        if (Mathf.Abs(ship.transform.position.y) > y / 2f)
         {
-            ship.transform.position = -1 * ship.transform.position;
-            var distFromLevelBorder = Mathf.Sqrt( levelBounds.SqrDistance(ship.transform.position));
-            ship.transform.Translate(-ship.transform.position * (distFromLevelBorder + 0.01f), Space.World);
+            ship.transform.position = new Vector2(ship.transform.position.x, -ship.transform.position.y * 0.9f);
+        }
+        if (Mathf.Abs(ship.transform.position.x) > x / 2f)
+        {
+            ship.transform.position = new Vector2(-ship.transform.position.x * 0.9f, ship.transform.position.y);
         }
     }
 
