@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShipGenerator : MonoBehaviour
 {
     private const float ActionInterval = 0.15f;
-    private const float ShipPartSize = 0.2f;
+    private const float ShipPartSize = 0.75f;
 
     public ShipPart testPart;
 
@@ -64,7 +64,14 @@ public class ShipGenerator : MonoBehaviour
             {
                 if (CurrentPlacingPart != null)
                 {
-                    CurrentPlacingPart.Rotate90(true);
+                    if (CurrentPlacingPart.CanRotate45)
+                    {
+                        CurrentPlacingPart.Rotate45(true);
+                    }
+                    else
+                    {
+                        CurrentPlacingPart.Rotate90(true);
+                    }
                 }
             }
 

@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class ShipBase : ShipPart
 {
+    public int PlayerNumber = 1;
+
     void Start()
     {
         ConnectionPoints = ConnectionPoints.All;
