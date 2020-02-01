@@ -13,6 +13,7 @@ public class ShipCannon : ShipPart
     {
         if (MotherShip != null && MotherShip.IsFunctional)
         {
+            timeFromLastShot += Time.deltaTime;
             if (Input.GetButton($"P{MotherShip.PlayerNumber}Action"))
             {
                 Shoot();
@@ -26,6 +27,8 @@ public class ShipCannon : ShipPart
         {
             var bullet = Instantiate(BulletPrefab);
             bullet.transform.rotation = transform.rotation;
+            bullet.transform.position = transform.position + transform.up* 0.3f;
+            timeFromLastShot = 0;
         }
     }
 

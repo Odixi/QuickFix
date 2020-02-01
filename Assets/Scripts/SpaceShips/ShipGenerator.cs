@@ -28,7 +28,10 @@ public class ShipGenerator : MonoBehaviour
     private void Start()
     {
         // testing
-        StartPlacingPart(Instantiate(testParts[0]));
+        var p = Instantiate(testParts[0]);
+        p.transform.parent = ship.transform;
+        StartPlacingPart(p);
+
     }
 
     // Update is called once per frame
@@ -100,9 +103,11 @@ public class ShipGenerator : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Destroy(CurrentPlacingPart);
+                Destroy(CurrentPlacingPart.gameObject);
+                Destroy(partPlacingIndicator.gameObject);
                 isPlacing = false;
                 ship.IsFunctional = true;
+                ship.SetPiecesNonStatic();
             }
         }
     }

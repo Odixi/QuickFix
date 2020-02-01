@@ -51,6 +51,7 @@ MonoBehaviour:
   CollisionDamage: 1
   CanRotate45: 1
   ConnectionPoints: 16
+  CanHostPoints: 16
   X: -1
   Y: -1
   ShootDelay: 0.2

@@ -131,7 +131,8 @@ MonoBehaviour:
   Health: 3
   CollisionDamage: 1
   CanRotate45: 1
-  ConnectionPoints: 17
+  ConnectionPoints: 1
+  CanHostPoints: 1
   X: -1
   Y: -1
   ThrustForce: 10

@@ -52,6 +52,7 @@ MonoBehaviour:
   CollisionDamage: 1
   CanRotate45: 0
   ConnectionPoints: 85
+  CanHostPoints: -1
   X: -1
   Y: -1
   PlayerNumber: 1

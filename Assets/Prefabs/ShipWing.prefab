@@ -132,6 +132,7 @@ MonoBehaviour:
   CollisionDamage: 1
   CanRotate45: 0
   ConnectionPoints: 16
+  CanHostPoints: 56
   X: -1
   Y: -1
 --- !u!50 &4058509198460951384

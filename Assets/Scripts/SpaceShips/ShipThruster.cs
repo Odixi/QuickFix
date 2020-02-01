@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShipThruster : ShipPart
 {
-    public float ThrustForce = 10;
+    public float ThrustForce = 20;
 
     public Vector2 Direction
     {
@@ -12,7 +12,7 @@ public class ShipThruster : ShipPart
         {
             if (MotherShip != null)
             {
-                return MotherShip.transform.InverseTransformDirection(transform.forward).normalized;
+                return MotherShip.transform.InverseTransformDirection(transform.up).normalized;
             }
             return Vector2.up;
         }
@@ -28,7 +28,7 @@ public class ShipThruster : ShipPart
             force = Vector2.ClampMagnitude(force, 1f);
             var dot = Mathf.Max(Vector2.Dot(Direction, force), 0);
 
-            MotherShip.ApplyThrust(dot * ThrustForce, transform.position, Direction);
+            MotherShip.ApplyThrust(dot * ThrustForce, transform.position, transform.up);
         }
     }
 }
