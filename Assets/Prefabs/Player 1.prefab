@@ -95,7 +95,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652641115394920352}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.355, z: 0}
+  m_LocalPosition: {x: 0.045, y: -0.298, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 2652641116244370330}
@@ -206,7 +206,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 11864ecab334e434bba0071e7e786bea, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -235,6 +235,7 @@ MonoBehaviour:
   ThrowableMinVelocityToDrop: 1
   MaxVelocity: 20
   WallMinDistanceToMove: 0.3
+  FeetCheckRadius: 0.15
   PlayerNumber: 1
   Feet: {fileID: 2652641115394920353}
   Hands: {fileID: 6728271322623454644}
@@ -252,7 +253,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.044340644, y: -0.066511035}
-  m_Size: {x: 0.27574754, y: 0.46197796}
+  m_Size: {x: 0.2, y: 0.46197796}
   m_Direction: 0
 --- !u!95 &7725304705603774759
 Animator:
