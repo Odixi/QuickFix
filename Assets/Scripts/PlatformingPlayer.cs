@@ -168,7 +168,7 @@ public class PlatformingPlayer : MonoBehaviour
 
         if ((rigidbody.velocity.x < MaxSpeed && inputX > 0) || (rigidbody.velocity.x > -MaxSpeed && inputX < 0))
         {
-            rigidbody.AddForce(new Vector2(inputX, 0).normalized * AccelerationForce);
+            rigidbody.AddForce(new Vector2(inputX, 0) * AccelerationForce);
         }
         if (inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
     }
