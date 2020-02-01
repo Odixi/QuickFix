@@ -34,6 +34,7 @@ public class ShipPart : MonoBehaviour
             }
         }
     }
+    public GameObject ExplosionPrefab;
     public int Health = 3;
     public int CollisionDamage = 1;
     public bool CanRotate45 = false;
@@ -68,8 +69,9 @@ public class ShipPart : MonoBehaviour
 
     public void Explode()
     {
-        // TODO blow up
-        Destroy(this);
+        var expl = Instantiate(ExplosionPrefab);
+        expl.transform.position = transform.position;
+        Destroy(gameObject);
     }
 
     public void Rotate90(bool clockwise)
@@ -117,8 +119,27 @@ public class ShipPart : MonoBehaviour
         OnDestroyed?.Invoke(this, EventArgs.Empty);
     }
 
+    public void TakeDamage(int damage)
+    {
+        if (motherShip != null && motherShip.IsFunctional)
+        {
+            Health -= damage;
+            if (Health <= 0)
+            {
+                Explode();
+            }
+        }
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        ShipPart other;
         // Damage whatever was hit
+        if (collision.gameObject.TryGetComponent<ShipPart>(out other))
+        {
+            // TODO if type of "melee" part take no damage
+            other.TakeDamage(CollisionDamage);
+        }
     }
 }

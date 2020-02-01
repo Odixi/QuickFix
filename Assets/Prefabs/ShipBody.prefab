@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6710d9867f196d47abc86f223c3a83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplosionPrefab: {fileID: 5730552196699159906, guid: 84f1aacceacf4ac46938448533db7bdb,
+    type: 3}
   Health: 3
   CollisionDamage: 1
   CanRotate45: 0

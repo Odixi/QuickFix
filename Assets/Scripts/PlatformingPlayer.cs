@@ -38,6 +38,18 @@ public class PlatformingPlayer : MonoBehaviour
     void Update()
     {
         float inputY = Input.GetAxis("P" + PlayerNumber + "Jump");
+        float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
+
+        bool ascending = !isGrounded && rigidbody.velocity.y > 1f;
+        bool descending = !isGrounded && rigidbody.velocity.y < -1f;
+        bool moving = !ascending && !descending && inputX != 0;
+        gameObject.GetComponent<Animator>().SetBool("Ascending", ascending);
+        gameObject.GetComponent<Animator>().SetBool("Descending", descending);
+        
+        gameObject.GetComponent<Animator>().SetBool("Moving", moving);
+        gameObject.GetComponent<Animator>().speed = moving ? Mathf.Max(0.5f, Mathf.Abs(rigidbody.velocity.x) / 4) : 1;
+        int playerFlip = PlayerNumber == 1 ? 1 : -1;
+        if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX * playerFlip > 0;
 
         if (inputY == 0) jumpButtonReleased = true;
         if (isGrounded)
