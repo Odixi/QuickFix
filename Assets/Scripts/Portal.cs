@@ -9,5 +9,6 @@ public class Portal : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player") collision.transform.position = portalExit.transform.position;
+        if (collision.gameObject.tag == "Ship Part") collision.transform.position = portalExit.transform.position;
     }
 }
