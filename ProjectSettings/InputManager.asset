@@ -181,3 +181,35 @@ InputManager:
     type: 0
     axis: 1
     joyNum: 2
+  - serializedVersion: 3
+    m_Name: P1Kick
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick 1 button 2
+    altNegativeButton: 
+    altPositiveButton: right shift
+    gravity: 100
+    dead: 0.1
+    sensitivity: 3
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 1
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: P2Kick
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick 2 button 2
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 100
+    dead: 0.1
+    sensitivity: 3
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 1
+    joyNum: 2
