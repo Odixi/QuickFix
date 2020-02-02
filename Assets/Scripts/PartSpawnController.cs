@@ -5,31 +5,54 @@ using UnityEngine;
 public class PartSpawnController : MonoBehaviour
 {
     public float partSize = 1;
-    public GameObject[] parts;
-    public int numberOfParts = 30;
+    public GameObject[] Parts;
+    public GameObject[] Guns;
+    public GameObject[] Thrusters;
+    public int NumberOfParts = 30;
+    public int MinThrusters = 3;
+    public int MinGuns = 3;
+    public float MaxThrowForce = 20f;
+    private int spawnedParts = 0;
+    private float TimeBetweenSpawns = 0.1f;
 
     private void Start()
     {
-        for(int i = 0; i < numberOfParts; i++)
-        {
-            var point = GetSpawnPoint();
-            var obj = Instantiate(parts[(int)(Random.value * parts.Length)]);
-            obj.transform.position = point;
-        }
+        StartCoroutine(SpawnParts());
     }
 
-    public Vector2 GetSpawnPoint()
+    IEnumerator SpawnParts()
     {
-        while (true)
+        for (int i = 0; i < MinThrusters; i++)
         {
-            var viewportPoint = new Vector2(Random.value, Random.value);
-            var ray = Camera.main.ViewportPointToRay(viewportPoint);
-            var raycastRes = Physics2D.BoxCast(ray.origin, Vector2.one * partSize, 0, ray.direction);
-            if (raycastRes.collider == null)
-            {
-                return Camera.main.ViewportToWorldPoint(viewportPoint);
-            }
+            GameObject original = Thrusters[(int)(Random.value * Thrusters.Length)];
+            SpawnObject(original);
+            spawnedParts++;
+            yield return new WaitForSeconds(TimeBetweenSpawns);
+        }
+        for (int i = 0; i < MinGuns; i++)
+        {
+            GameObject original = Guns[(int)(Random.value * Guns.Length)];
+            SpawnObject(original);
+            spawnedParts++;
+            yield return new WaitForSeconds(TimeBetweenSpawns);
+        }
+        while (spawnedParts < NumberOfParts)
+        {
+            GameObject original = Parts[(int)(Random.value * Parts.Length)];
+            SpawnObject(original);
+            spawnedParts++;
+            yield return new WaitForSeconds(TimeBetweenSpawns);
         }
     }
 
+    void SpawnObject(GameObject spawnable)
+    {
+        Transform spawn = transform.GetChild((int)(Random.value * transform.childCount));
+        GameObject spawnedObject = Instantiate(spawnable, spawn.position, spawn.rotation);
+        float x = Random.Range(-MaxThrowForce, MaxThrowForce);
+        float y = Random.Range(-MaxThrowForce, MaxThrowForce);
+        float z = 0;
+        Vector3 force = new Vector3(x, y, z);
+        spawnedObject.GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+    }
 }
