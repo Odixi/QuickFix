@@ -28,5 +28,17 @@ public class Throwable : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player") WasThrown = false;
+
+        if (GameController.Instance.State == GameState.Platform)
+        {
+            AudioSource aud;
+            if (TryGetComponent<AudioSource>(out aud))
+            {
+                aud.volume = collision.relativeVelocity.magnitude / 20f;
+                aud.Play();
+            }
+
+        }
+
     }
 }
