@@ -20,6 +20,8 @@ public class PlatformingPlayer : MonoBehaviour
     public float FeetCheckRadius = 0.5f;
     public float MinimumWalkSoundInterval = 0.6f;
     public float CoyoteTime = 0.4f;
+    public float KnockedBackDuration = 0.5f;
+    public float KnockbackedTime = 0f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -134,6 +136,13 @@ public class PlatformingPlayer : MonoBehaviour
         target.transform.GetComponent<Rigidbody2D>().AddForce(kickDirection * KickForce, ForceMode2D.Impulse);
         if (target.tag == "Player") target.GetComponent<PlatformingPlayer>().DropCarriedPart();
         if (target.tag == "Ship Part") target.GetComponent<Throwable>().WasThrown = true;
+        KnockbackedTime = Time.time;
+    }
+
+    public void Knockback(Vector3 force)
+    {
+        rigidbody.AddForce(force, ForceMode2D.Impulse);
+        KnockbackedTime = Time.time;
     }
 
     List<GameObject> KickableObjects()
@@ -186,7 +195,7 @@ public class PlatformingPlayer : MonoBehaviour
         {
             rigidbody.AddForce(new Vector2(inputX, 0) * AccelerationForce);
         }
-        if (inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
+        if (Time.time > KnockbackedTime + KnockedBackDuration && inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
     }
     
     void PickupPart(GameObject part)
@@ -237,7 +246,6 @@ public class PlatformingPlayer : MonoBehaviour
         rb.AddForce(lastFacingDirection * ThrowForce, ForceMode2D.Impulse);
         CarriedPart.GetComponent<Throwable>().WasThrown = true;
         CarriedPart.GetComponent<BoxCollider2D>().enabled = true;
-
         CarriedPart = null;
     }
 
