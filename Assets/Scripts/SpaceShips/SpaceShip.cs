@@ -37,6 +37,8 @@ public class SpaceShip : MonoBehaviour
     private BoxCollider2D[,] colliders = new BoxCollider2D[9, 9];
 
     private Rigidbody2D rigidbody;
+    public AudioSource ThrusterSound;
+    private float thrustAmount = 0f;
 
     private void Start()
     {
@@ -51,7 +53,14 @@ public class SpaceShip : MonoBehaviour
 
     public void ApplyThrust(float amount, Vector2 position, Vector2 direction)
     {
+        thrustAmount += amount;
         rigidbody.AddForceAtPosition(direction.normalized * amount, position);
+    }
+
+    private void LateUpdate()
+    {
+        ThrusterSound.volume = Math.Max(Math.Min(thrustAmount / 100, 0.7f), 0.1f);
+        thrustAmount = 0;
     }
 
     public void AddPart(int x, int y, ShipPart part)
