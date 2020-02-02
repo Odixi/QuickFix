@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
     public Sprite IntroCharacterMouthOpen;
     public Animator IntroTextAnimator;
     public GameObject PressStartButton;
+    public GameObject ExplosionPrefab;
 
     public Team Winner = Team.Red;
 
@@ -195,6 +196,10 @@ public class GameController : MonoBehaviour
         IntroAnimator.SetBool("Crush", true);
         IntroAnimator.speed = 10;
         IntroCharacter.sprite = IntroCharacterMouthOpen;
+        var e1 = Instantiate(ExplosionPrefab);
+        e1.transform.position = new Vector3(0.83f, 15.25f, 10);
+        var e2 = Instantiate(ExplosionPrefab);
+        e2.transform.position = new Vector3(12.37f, 15.25f, 10);
         yield return new WaitForSeconds(1);
         cameraPan.SetState(TransitionState.FromMenu, BeginPlatform);
     }
