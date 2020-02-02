@@ -3676,8 +3676,7 @@ MonoBehaviour:
   - {fileID: 1712113538966857522, guid: 2e9e94a93668bfc48ad51a85d73d84a1, type: 3}
   - {fileID: 668327509502635859, guid: dc856eee47363c849a3190d3dbb86dcd, type: 3}
   - {fileID: 3925365379313509503, guid: 24f65e8be4f775e49a56f1291ffd0eb1, type: 3}
-  - {fileID: 668327509502635859, guid: dc856eee47363c849a3190d3dbb86dcd, type: 3}
-  - {fileID: 3576955849965312514, guid: eb03b32608ba90a468e5ff6c3871cb83, type: 3}
+  - {fileID: 3576955849965312514, guid: 2be91b3e09f782b4a82c8d621620e610, type: 3}
   - {fileID: 3576955849965312514, guid: eb03b32608ba90a468e5ff6c3871cb83, type: 3}
   PlayerNumber: 2
   player: {fileID: 2136676234}
@@ -8323,7 +8322,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -13354,8 +13353,7 @@ MonoBehaviour:
   - {fileID: 1712113538966857522, guid: 2e9e94a93668bfc48ad51a85d73d84a1, type: 3}
   - {fileID: 668327509502635859, guid: dc856eee47363c849a3190d3dbb86dcd, type: 3}
   - {fileID: 3925365379313509503, guid: 24f65e8be4f775e49a56f1291ffd0eb1, type: 3}
-  - {fileID: 668327509502635859, guid: dc856eee47363c849a3190d3dbb86dcd, type: 3}
-  - {fileID: 3576955849965312514, guid: eb03b32608ba90a468e5ff6c3871cb83, type: 3}
+  - {fileID: 3576955849965312514, guid: 2be91b3e09f782b4a82c8d621620e610, type: 3}
   - {fileID: 3576955849965312514, guid: eb03b32608ba90a468e5ff6c3871cb83, type: 3}
   PlayerNumber: 1
   player: {fileID: 430392184}
