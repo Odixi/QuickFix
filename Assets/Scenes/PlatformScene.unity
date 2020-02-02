@@ -3217,7 +3217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c733542513b90545b78d5ce7bc83135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlatformPlayTime: 90
+  PlatformPlayTime: 2
   FlightPlayTime: 90
   PlatformingPlayer1: {fileID: 430392184}
   PlatformingPlayer2: {fileID: 2136676234}
@@ -3239,6 +3239,8 @@ MonoBehaviour:
     type: 3}
   IntroTextAnimator: {fileID: 724736801}
   PressStartButton: {fileID: 496027122}
+  ExplosionPrefab: {fileID: 5730552196699159906, guid: 84f1aacceacf4ac46938448533db7bdb,
+    type: 3}
   Winner: 0
 --- !u!4 &429612477
 Transform:
@@ -16251,8 +16253,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player1: {fileID: 1574711855}
   Player2: {fileID: 996956682}
-  y: 20
-  x: 35
+  y: 15
+  x: 30
 --- !u!4 &2087657887
 Transform:
   m_ObjectHideFlags: 0

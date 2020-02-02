@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class ExplosionController : MonoBehaviour
 {
-    public ParticleSystem explosionParticleSystem;
+    public Animator ExplosionAnimator;
 
     private float timeAlive = 0;
 
     // Update is called once per frame
     void Update()
     {
+
         timeAlive += Time.deltaTime;
-        if (timeAlive > explosionParticleSystem.startLifetime + explosionParticleSystem.duration)
+        if (timeAlive > 0.5f)
         {
             Destroy(gameObject);
         }
