@@ -30,6 +30,7 @@ public class PlatformingPlayer : MonoBehaviour
     public bool IsPlacingPart = false;
     public Rigidbody2D rigidbody;
     public AudioSource WalkSource;
+    public AudioSource JumpSource;
     private bool jumpUsed;
     private bool jumpButtonReleased = true;
     private bool kickButtonReleased = true;
@@ -123,6 +124,8 @@ public class PlatformingPlayer : MonoBehaviour
         rigidbody.AddForce(Vector2.up * JumpForce / 2, ForceMode2D.Impulse);
         jumpUsed = true;
         jumpButtonReleased = false;
+        JumpSource.Play();
+
     }
 
     void CarryPart(GameObject part)
