@@ -113,7 +113,7 @@ public class PlatformingPlayer : MonoBehaviour
 
     void JumpExtend()
     {
-        rigidbody.AddForce((Vector2.up * JumpForce * Mathf.Max(0, (jumpTime + JumpExtendTime - Time.time))), ForceMode2D.Force);
+        rigidbody.AddForce((Vector2.up * JumpForce * Mathf.Max(0, (jumpTime + JumpExtendTime - Time.time))) * Time.deltaTime * 50, ForceMode2D.Force);
     }
 
     void Jump()
@@ -200,7 +200,7 @@ public class PlatformingPlayer : MonoBehaviour
 
         if ((rigidbody.velocity.x < MaxSpeed && inputX > 0) || (rigidbody.velocity.x > -MaxSpeed && inputX < 0))
         {
-            rigidbody.AddForce(new Vector2(inputX, 0) * AccelerationForce);
+            rigidbody.AddForce(new Vector2(inputX, 0) * AccelerationForce * Time.deltaTime * 50);
         }
         if (Time.time > KnockbackedTime + KnockedBackDuration && inputX == 0) rigidbody.velocity -= (rigidbody.velocity - new Vector2(0, rigidbody.velocity.y)) * Time.deltaTime / MovementFloatiness;
     }
