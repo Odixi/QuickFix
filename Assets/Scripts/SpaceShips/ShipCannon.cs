@@ -27,7 +27,7 @@ public class ShipCannon : ShipPart
         {
             var bullet = Instantiate(BulletPrefab);
             bullet.transform.rotation = transform.rotation;
-            bullet.transform.position = transform.position + transform.up* 0.5f;
+            bullet.transform.position = transform.position + transform.up* 0.7f;
             timeFromLastShot = 0;
         }
     }
