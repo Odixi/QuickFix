@@ -28,6 +28,13 @@ public class GameController : MonoBehaviour
     public SpaceShip SpaceShipP1;
     public SpaceShip SpaceShipP2;
 
+    public SpaceBattleController SpaceBattleController;
+
+    public AudioSource MusicSource;
+    public AudioClip MusicMenu;
+    public AudioClip MusicPlatform;
+    public AudioClip MusicFlight;
+
     private Camera camera;
     private CameraPan cameraPan;
     private float timeTaken = 0;
@@ -39,6 +46,9 @@ public class GameController : MonoBehaviour
             Instance = this;
             cameraPan = GetComponent<CameraPan>();
             camera = Camera.main;
+            State = GameState.Menu;
+            PlatformingPlayer1.enabled = false;
+            PlatformingPlayer2.enabled = false;
         }
         else
         {
@@ -49,12 +59,24 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         // For now until we have start menu
-        State = GameState.Platform;
+        //State = GameState.Platform;
+        //MusicSource.clip = MusicPlatform;
+        //MusicSource.Play();
     }
 
     private void Update()
     {
         if (State == GameState.Transition) return;
+
+        if (State == GameState.Menu)
+        {
+            if (Input.anyKey)
+            {
+                State = GameState.Transition;
+                cameraPan.SetState(TransitionState.FromMenu, BeginPlatform);
+                StartCoroutine(ChangeAudioclipOnEnd(MusicPlatform));
+            }
+        }
 
         if (State == GameState.Platform)
         {
@@ -63,8 +85,16 @@ public class GameController : MonoBehaviour
             {
                 cameraPan.SetState(TransitionState.FromPlatformer, BeginFlight);
                 State = GameState.Transition;
+                StartCoroutine(ChangeAudioclipOnEnd(MusicFlight));
             }
         }
+    }
+
+    void BeginPlatform()
+    {
+        PlatformingPlayer1.enabled = true;
+        PlatformingPlayer2.enabled = true;
+        State = GameState.Platform;
     }
 
     void BeginFlight()
@@ -102,5 +132,15 @@ public class GameController : MonoBehaviour
         SpaceShipP2.transform.parent = null;
         Destroy(p1par.gameObject);
         Destroy(p2par.gameObject);
+        SpaceBattleController.transform.position = camera.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
+        SpaceBattleController.gameObject.SetActive(true);
+    }
+
+    IEnumerator ChangeAudioclipOnEnd(AudioClip newClip)
+    {
+        var timeLeft = MusicSource.clip.length - MusicSource.time;
+        yield return new WaitForSecondsRealtime(timeLeft);
+        MusicSource.clip = newClip;
+        MusicSource.Play();
     }
 }
