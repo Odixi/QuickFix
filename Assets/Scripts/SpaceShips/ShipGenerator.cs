@@ -62,6 +62,20 @@ public class ShipGenerator : MonoBehaviour
                 {
                     if (CurrentPlacingPart.CanRotate45)
                     {
+                        CurrentPlacingPart.Rotate45(false);
+                    }
+                    else
+                    {
+                        CurrentPlacingPart.Rotate90(false);
+                    }
+                }
+            }
+            if (Input.GetButtonDown($"P{PlayerNumber}Action"))
+            {
+                if (CurrentPlacingPart != null)
+                {
+                    if (CurrentPlacingPart.CanRotate45)
+                    {
                         CurrentPlacingPart.Rotate45(true);
                     }
                     else
@@ -82,7 +96,7 @@ public class ShipGenerator : MonoBehaviour
             }
 
 
-            if (Input.GetButtonDown($"P{PlayerNumber}Action") && ship.ValidatePartPosition(selectedX, selectedY, CurrentPlacingPart.ConnectionPoints))
+            if (Input.GetButtonDown($"P{PlayerNumber}Jump") && ship.ValidatePartPosition(selectedX, selectedY, CurrentPlacingPart.ConnectionPoints))
             {
                 ship.AddPart(selectedX, selectedY, CurrentPlacingPart);
                 isPlacing = false;
