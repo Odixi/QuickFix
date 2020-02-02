@@ -24,7 +24,7 @@ public class ShipBase : ShipPart
             g.SetActive(false);
         }
         Player1PilotInside.SetActive(PlayerNumber == 1);
-        Player1PilotInside.SetActive(PlayerNumber == 2);
+        Player2PilotInside.SetActive(PlayerNumber == 2);
 
     }
 
