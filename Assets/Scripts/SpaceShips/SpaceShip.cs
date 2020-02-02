@@ -7,8 +7,7 @@ public class SpaceShip : MonoBehaviour
 {
     public float colliderSize = ShipGenerator.ShipPartSize;
 
-    [SerializeField]
-    private ShipBase BasePart;
+    public ShipBase BasePart;
     public int PlayerNumber => BasePart.PlayerNumber;
     // Are we building the ship or using it?
     private bool isFunctional = false;
