@@ -101,6 +101,4 @@ public class CameraPan : MonoBehaviour
         this.state = state;
         this.callback = callback;
     }
-
-
 }
