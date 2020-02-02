@@ -8,6 +8,7 @@ public enum TransitionState
     Flight,
     FromPlatformer,
     Platformer,
+    ToMenu,
     FromMenu,
     Menu,
     FromFlight,
@@ -31,7 +32,7 @@ public class CameraPan : MonoBehaviour
     {
         camera = Camera.main;
         // For now start from menu
-        camera.transform.position = MenuPosition;
+        camera.transform.position = FlightPosition;
     }
 
     void Update()
@@ -39,6 +40,20 @@ public class CameraPan : MonoBehaviour
         if (state == TransitionState.Flight || state == TransitionState.Platformer || state == TransitionState.Menu)
         {
             return;
+        }
+
+        if (state == TransitionState.ToMenu)
+        {
+            t += Time.deltaTime;
+            camera.transform.position = Vector3.Lerp(FlightPosition, MenuPosition,
+                curve.Evaluate(Mathf.Min(1, t / TransitionTime)));
+            if (t > TransitionTime)
+            {
+                state = TransitionState.Platformer;
+                callback?.Invoke();
+                callback = null;
+                t = 0;
+            }
         }
         if (state == TransitionState.FromMenu)
         {

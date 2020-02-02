@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    Intro,
     Menu,
     Platform,
     Flight,
@@ -39,6 +40,13 @@ public class GameController : MonoBehaviour
     public AudioClip MusicPlatform;
     public AudioClip MusicFlight;
 
+    public GameObject IntroGameObject;
+    public Animator IntroAnimator;
+    public SpriteRenderer IntroCharacter;
+    public Sprite IntroCharacterMouthOpen;
+    public Animator IntroTextAnimator;
+    public GameObject PressStartButton;
+
     public Team Winner = Team.Red;
 
     private Camera camera;
@@ -58,9 +66,13 @@ public class GameController : MonoBehaviour
             Instance = this;
             cameraPan = GetComponent<CameraPan>();
             camera = Camera.main;
-            State = GameState.Menu;
+            State = GameState.Intro;
             PlatformingPlayer1.enabled = false;
             PlatformingPlayer2.enabled = false;
+            IntroAnimator.speed = 0;
+            IntroTextAnimator.speed = 0;
+            IntroTextAnimator.gameObject.SetActive(false);
+            PressStartButton.SetActive(false);
         }
         else
         {
@@ -80,12 +92,18 @@ public class GameController : MonoBehaviour
     {
         if (State == GameState.Transition) return;
 
+        if (State == GameState.Intro)
+        {
+            StartIntro();
+            State = GameState.Transition;
+        }
+
         if (State == GameState.Menu)
         {
             if (Input.anyKey)
             {
                 State = GameState.Transition;
-                cameraPan.SetState(TransitionState.FromMenu, BeginPlatform);
+                StartCoroutine(EndMenu());
                 StartCoroutine(ChangeAudioclipOnEnd(MusicPlatform));
             }
         }
@@ -141,8 +159,49 @@ public class GameController : MonoBehaviour
         State = GameState.GameOver;
     }
 
+    void StartIntro()
+    {
+        IntroAnimator.speed = 2;
+        StartCoroutine(Intro());
+    }
+
+    IEnumerator Intro()
+    {
+        yield return new WaitForSeconds(1.5f); // Wait for Intro animation
+        cameraPan.SetState(TransitionState.ToMenu, delegate { });
+        StartCoroutine( MoveFromToIn(IntroAnimator.transform, IntroAnimator.transform.position, new Vector3(6.74f, 13.9f, 0), 2.4f));
+        yield return new WaitForSeconds(3f);
+        IntroTextAnimator.gameObject.SetActive(true);
+        IntroTextAnimator.speed = 0.5f;
+        yield return new WaitForSeconds(1.5f);
+        PressStartButton.SetActive(true);
+        State = GameState.Menu;
+
+    }
+
+    IEnumerator MoveFromToIn(Transform trans, Vector3 from, Vector3 to, float time)
+    {
+        float t = 0;
+        while (t < time)
+        {
+            t += Time.deltaTime;
+            trans.position = Vector3.Lerp(from, to, Mathf.Min( t / time, 1));
+            yield return null;
+        }
+    }
+
+    IEnumerator EndMenu()
+    {
+        IntroAnimator.SetBool("Crush", true);
+        IntroAnimator.speed = 10;
+        IntroCharacter.sprite = IntroCharacterMouthOpen;
+        yield return new WaitForSeconds(1);
+        cameraPan.SetState(TransitionState.FromMenu, BeginPlatform);
+    }
+
     void BeginPlatform()
     {
+        Destroy(IntroGameObject);
         PlatformingPlayer1.enabled = true;
         PlatformingPlayer2.enabled = true;
         State = GameState.Platform;
