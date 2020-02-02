@@ -15454,6 +15454,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: spikes
       objectReference: {fileID: 0}
+    - target: {fileID: 3423987851932389299, guid: 67d4f65e825dced47816564aff95cbe4,
+        type: 3}
+      propertyPath: m_TagString
+      value: PlayerHurt
+      objectReference: {fileID: 0}
     - target: {fileID: 7990989322809750078, guid: 67d4f65e825dced47816564aff95cbe4,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2743006738972530982}
   - component: {fileID: 2842426549553325984}
   - component: {fileID: 4327073235348363360}
-  - component: {fileID: 3734238397919732020}
   m_Layer: 0
   m_Name: alien_tile_2
   m_TagString: Map
@@ -109,24 +108,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 7.14, y: 7.14}
   m_EdgeRadius: 0
---- !u!50 &3734238397919732020
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087501076923444361}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
