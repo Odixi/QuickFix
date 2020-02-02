@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -53,6 +54,7 @@ public class GameController : MonoBehaviour
     private Camera camera;
     private CameraPan cameraPan;
     private float timeTaken = 0;
+    private bool anyKeyUp = true;
 
     public enum Team
     {
@@ -131,16 +133,21 @@ public class GameController : MonoBehaviour
             }
         }
 
+        if (Input.anyKey == false) anyKeyUp = true;
         if (State == GameState.GameOver)
         {
+            timeTaken += Time.deltaTime;
             GameOver.SetActive(true);
+            if (Input.anyKey && anyKeyUp && timeTaken > 2) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else GameOver.SetActive(false);
 
         if (State == GameState.Winner)
         {
+            timeTaken += Time.deltaTime;
             RedWin.SetActive(Winner == Team.Red);
             BlueWin.SetActive(Winner == Team.Blue);
+            if (Input.anyKey && anyKeyUp && timeTaken > 2) BeginGameOver();
         }
         else
         {
@@ -151,12 +158,14 @@ public class GameController : MonoBehaviour
 
     public void PlayerWin(Team winningTeam)
     {
+        timeTaken = 0;
         Winner = winningTeam;
         State = GameState.Winner;
     }
 
     void BeginGameOver()
     {
+        timeTaken = 0;
         State = GameState.GameOver;
     }
 

@@ -27,12 +27,11 @@ public class SpaceBattleController : MonoBehaviour
     {
         if (Mathf.Abs(transform.position.y - ship.transform.position.y) > y / 2f)
         {
-            ship.transform.position = new Vector2(ship.transform.position.x, transform.position.y + transform.position.y -ship.transform.position.y * 0.9f);
+            ship.transform.position = new Vector2(ship.transform.position.x, transform.position.y + (transform.position.y -ship.transform.position.y) * 0.9f);
         }
         if (Mathf.Abs(transform.position.x - ship.transform.position.x) > x / 2f)
         {
-            ship.transform.position = new Vector2(transform.position.x + transform.position.x - ship.transform.position.x * 0.9f, 
-                ship.transform.position.y);
+            ship.transform.position = new Vector2(transform.position.x + (transform.position.x - ship.transform.position.x) * 0.9f, ship.transform.position.y);
         }
     }
 
