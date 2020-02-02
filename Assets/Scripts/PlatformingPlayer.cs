@@ -132,6 +132,8 @@ public class PlatformingPlayer : MonoBehaviour
 
     void Kick()
     {
+        animator.SetBool("Kicking", true);
+        StartCoroutine(TurnOffKickAnim());
         GameObject target = GetKickTarget();
         if (target == null) return;
         Vector2 kickDirection = (target.transform.position - transform.position);
@@ -207,10 +209,24 @@ public class PlatformingPlayer : MonoBehaviour
     
     void PickupPart(GameObject part)
     {
+        animator.SetBool("Pickup", true);
         CarriedPart = part;
         CarriedPart.GetComponent<Rigidbody2D>().isKinematic = true;
         CarriedPart.GetComponent<BoxCollider2D>().enabled = false;
         part.transform.SetParent(Hands);
+        StartCoroutine(TurnOffPickupAnim());
+    }
+
+    IEnumerator TurnOffKickAnim()
+    {
+        yield return new WaitForSeconds(0.05f);
+        animator.SetBool("Kicking", false);
+    }
+
+    IEnumerator TurnOffPickupAnim()
+    {
+        yield return new WaitForSeconds(0.1f);
+        animator.SetBool("Pickup", false);
     }
 
     void PickupClosestPart()
