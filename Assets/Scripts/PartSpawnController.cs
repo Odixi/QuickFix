@@ -11,9 +11,9 @@ public class PartSpawnController : MonoBehaviour
     public int NumberOfParts = 30;
     public int MinThrusters = 3;
     public int MinGuns = 3;
-    public float MaxThrowForce = 20f;
+    public float MaxThrowForce = 10f;
     private int spawnedParts = 0;
-    private float TimeBetweenSpawns = 0.1f;
+    private float TimeBetweenSpawns = 0.01f;
 
     private void Start()
     {
