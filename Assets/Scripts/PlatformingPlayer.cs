@@ -22,6 +22,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float CoyoteTime = 0.4f;
     public float KnockedBackDuration = 0.5f;
     public float KnockbackedTime = 0f;
+    public float JumpExtendTime = 1f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -37,6 +38,7 @@ public class PlatformingPlayer : MonoBehaviour
     private Animator animator;
     private float lastStepTime = 0f;
     private float lastTimeWasGrounded = 0f;
+    private float jumpTime = 0f;
 
     private bool isGrounded => Physics2D.CircleCast(transform.position, FeetCheckRadius, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
 
@@ -52,7 +54,6 @@ public class PlatformingPlayer : MonoBehaviour
         {
             return;
         }
-
         float inputY = Input.GetAxis("P" + PlayerNumber + "Jump");
         float inputX = Input.GetAxis("P" + PlayerNumber + "Horizontal");
 
@@ -78,7 +79,7 @@ public class PlatformingPlayer : MonoBehaviour
         if (isGrounded) lastTimeWasGrounded = Time.time;
 
         if (inputY == 0) jumpButtonReleased = true;
-
+        if (!jumpButtonReleased) JumpExtend();
         if (isGrounded || Time.time < lastTimeWasGrounded + CoyoteTime)
         {
             if (inputY > 0 && !jumpUsed) Jump();
@@ -110,10 +111,16 @@ public class PlatformingPlayer : MonoBehaviour
         DropCarriedPart();
     }
 
+    void JumpExtend()
+    {
+        rigidbody.AddForce((Vector2.up * JumpForce * Mathf.Max(0, (jumpTime + JumpExtendTime - Time.time))), ForceMode2D.Force);
+    }
+
     void Jump()
     {
+        jumpTime = Time.time;
         rigidbody.velocity = rigidbody.velocity - new Vector2(0, rigidbody.velocity.y);
-        rigidbody.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        rigidbody.AddForce(Vector2.up * JumpForce / 2, ForceMode2D.Impulse);
         jumpUsed = true;
         jumpButtonReleased = false;
     }
