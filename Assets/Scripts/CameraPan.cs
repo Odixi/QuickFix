@@ -28,6 +28,8 @@ public class CameraPan : MonoBehaviour
     private void Awake()
     {
         camera = Camera.main;
+        // For now start from menu
+        camera.transform.position = MenuPosition;
     }
 
     void Update()
@@ -35,6 +37,19 @@ public class CameraPan : MonoBehaviour
         if (state == TransitionState.Flight || state == TransitionState.Platformer || state == TransitionState.Menu)
         {
             return;
+        }
+        if (state == TransitionState.FromMenu)
+        {
+            t += Time.deltaTime;
+            camera.transform.position = Vector3.Lerp(MenuPosition, PlatformerPosition,
+                curve.Evaluate(Mathf.Min(1, t / TransitionTime)));
+            if (t > TransitionTime)
+            {
+                state = TransitionState.Platformer;
+                callback?.Invoke();
+                callback = null;
+                t = 0;
+            }
         }
         if (state == TransitionState.FromPlatformer)
         {
@@ -46,8 +61,10 @@ public class CameraPan : MonoBehaviour
                 state = TransitionState.Flight;
                 callback?.Invoke();
                 callback = null;
+                t = 0;
             }
         }
+
     }
 
     public void SetState(TransitionState state, Action callback) // cb?

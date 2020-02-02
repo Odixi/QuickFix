@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 34c0b041ca2edf74b8ef8f71cc36b6fe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 091a158d0f9ab374584b270f26fb9b18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -151,7 +151,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: cc9516c530b51ce429e52c0e782a93bb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4e71180770f238345845e9709dd382c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 5747621361753654991}
   - component: {fileID: 898560713654992818}
   m_Layer: 0
-  m_Name: ShipWing
+  m_Name: ShipTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,11 +210,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 5730552196699159906, guid: 84f1aacceacf4ac46938448533db7bdb,
     type: 3}
-  Health: 3
-  CollisionDamage: 1
+  Health: 6
+  CollisionDamage: 2
   CanRotate45: 0
-  ConnectionPoints: 80
-  CanHostPoints: 248
+  ConnectionPoints: 16
+  CanHostPoints: 56
   X: -1
   Y: -1
   GraphicsGameObjects:
@@ -291,7 +291,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 846b918ac218c88449f7d6a27e482006, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69e950ebe836fcf45a0c22900afd19e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
