@@ -62,6 +62,7 @@ public class SpaceShip : MonoBehaviour
             colliders[x, y].size = new Vector2(colliderSize, colliderSize);
             colliders[x,y].offset = new Vector3((x - 4) * colliderSize, (y - 4) * colliderSize );
             colliders[x, y].enabled = false;
+            part.transform.SetParent(transform);
         }
     }
 
