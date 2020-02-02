@@ -230,7 +230,7 @@ MonoBehaviour:
   JumpForce: 9.8
   MovementFloatiness: 0.1
   ThrowForce: 10
-  MaxPickupDistance: 1
+  MaxPickupDistance: 1.5
   KickDistance: 1
   KickForce: 10
   DropForce: 2

@@ -3217,7 +3217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c733542513b90545b78d5ce7bc83135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlatformPlayTime: 30
+  PlatformPlayTime: 90
   FlightPlayTime: 90
   PlatformingPlayer1: {fileID: 430392184}
   PlatformingPlayer2: {fileID: 2136676234}
@@ -3692,7 +3692,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493474439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.45, y: 3.01, z: 0}
+  m_LocalPosition: {x: -4.33, y: 3.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 996956683}
@@ -13565,7 +13565,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720809086}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.55, y: 3.01, z: 0}
+  m_LocalPosition: {x: 17.97, y: 3.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1574711856}
