@@ -9,7 +9,9 @@ public enum TransitionState
     FromPlatformer,
     Platformer,
     FromMenu,
-    Menu
+    Menu,
+    FromFlight,
+    GameOver
 }
 
 public class CameraPan : MonoBehaviour
@@ -64,7 +66,19 @@ public class CameraPan : MonoBehaviour
                 t = 0;
             }
         }
-
+        if (state == TransitionState.FromFlight)
+        {
+            t += Time.deltaTime;
+            camera.transform.position = Vector3.Lerp(FlightPosition, MenuPosition,
+                curve.Evaluate(Mathf.Min(1, t / TransitionTime)));
+            if (t > TransitionTime)
+            {
+                state = TransitionState.Menu;
+                callback?.Invoke();
+                callback = null;
+                t = 0;
+            }
+        }
     }
 
     public void SetState(TransitionState state, Action callback) // cb?

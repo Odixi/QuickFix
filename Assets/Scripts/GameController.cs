@@ -7,6 +7,7 @@ public enum GameState
     Menu,
     Platform,
     Flight,
+    Winner,
     GameOver,
     Transition
 }
@@ -24,6 +25,9 @@ public class GameController : MonoBehaviour
     public PlatformingPlayer PlatformingPlayer2;
 
     public GameObject Map;
+    public GameObject RedWin;
+    public GameObject BlueWin;
+    public GameObject GameOver;
 
     public SpaceShip SpaceShipP1;
     public SpaceShip SpaceShipP2;
@@ -35,9 +39,17 @@ public class GameController : MonoBehaviour
     public AudioClip MusicPlatform;
     public AudioClip MusicFlight;
 
+    public Team Winner = Team.Red;
+
     private Camera camera;
     private CameraPan cameraPan;
     private float timeTaken = 0;
+
+    public enum Team
+    {
+        Red,
+        Blue
+    }
 
     private void Awake()
     {
@@ -88,6 +100,45 @@ public class GameController : MonoBehaviour
                 StartCoroutine(ChangeAudioclipOnEnd(MusicFlight));
             }
         }
+
+        if (State == GameState.Flight)
+        {
+            timeTaken += Time.deltaTime;
+            if (timeTaken > FlightPlayTime)
+            {
+                cameraPan.SetState(TransitionState.FromFlight, BeginGameOver);
+                State = GameState.Transition;
+                StartCoroutine(ChangeAudioclipOnEnd(MusicMenu));
+            }
+        }
+
+        if (State == GameState.GameOver)
+        {
+            GameOver.SetActive(true);
+        }
+        else GameOver.SetActive(false);
+
+        if (State == GameState.Winner)
+        {
+            RedWin.SetActive(Winner == Team.Red);
+            BlueWin.SetActive(Winner == Team.Blue);
+        }
+        else
+        {
+            BlueWin.SetActive(false);
+            RedWin.SetActive(false);
+        }
+    }
+
+    public void PlayerWin(Team winningTeam)
+    {
+        Winner = winningTeam;
+        State = GameState.Winner;
+    }
+
+    void BeginGameOver()
+    {
+        State = GameState.GameOver;
     }
 
     void BeginPlatform()
@@ -99,6 +150,7 @@ public class GameController : MonoBehaviour
 
     void BeginFlight()
     {
+        timeTaken = 0;
         State = GameState.Flight;
         SpaceShipP1.BasePart.SetPilotsInside();
         SpaceShipP2.BasePart.SetPilotsInside();

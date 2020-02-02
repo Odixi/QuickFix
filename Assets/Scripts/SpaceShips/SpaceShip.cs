@@ -94,6 +94,7 @@ public class SpaceShip : MonoBehaviour
                 p.Explode();
             }
         }
+        GameController.Instance.PlayerWin(PlayerNumber == 1 ? GameController.Team.Red : GameController.Team.Blue);
         Destroy(gameObject);
     }
 
