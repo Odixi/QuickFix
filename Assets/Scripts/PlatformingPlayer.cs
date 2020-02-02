@@ -18,18 +18,23 @@ public class PlatformingPlayer : MonoBehaviour
     public float MaxVelocity = 20f;
     public float WallMinDistanceToMove = 0.3f;
     public float FeetCheckRadius = 0.5f;
+    public float MinimumWalkSoundInterval = 0.6f;
+    public float CoyoteTime = 0.4f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
     public GameObject CarriedPart = null;
     public bool IsPlacingPart = false;
     public Rigidbody2D rigidbody;
+    public AudioSource WalkSource;
     private bool jumpUsed;
     private bool jumpButtonReleased = true;
     private bool kickButtonReleased = true;
     private bool pickupButtonReleasedAfterLastAction = true;
     private Vector2 lastFacingDirection = Vector2.right;
     private Animator animator;
+    private float lastStepTime = 0f;
+    private float lastTimeWasGrounded = 0f;
 
     private bool isGrounded => Physics2D.CircleCast(transform.position, FeetCheckRadius, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
 
@@ -54,14 +59,25 @@ public class PlatformingPlayer : MonoBehaviour
         bool moving = !ascending && !descending && inputX != 0;
         animator.SetBool("Ascending", ascending);
         animator.SetBool("Descending", descending);
-
         animator.SetBool("Moving", moving);
         animator.speed = moving ? Mathf.Max(0.5f, Mathf.Abs(rigidbody.velocity.x) / 4) : 1;
+        if (moving && isGrounded)
+        {
+            if (Time.time > lastStepTime + 0.4f)
+            {
+                WalkSource.Stop();
+                WalkSource.Play();
+                lastStepTime = Time.time;
+            }
+        }
         int playerFlip = PlayerNumber == 1 ? 1 : -1;
         if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX * playerFlip > 0;
 
+        if (isGrounded) lastTimeWasGrounded = Time.time;
+
         if (inputY == 0) jumpButtonReleased = true;
-        if (isGrounded)
+
+        if (isGrounded || Time.time < lastTimeWasGrounded + CoyoteTime)
         {
             if (inputY > 0 && !jumpUsed) Jump();
             if (jumpButtonReleased) jumpUsed = false;
