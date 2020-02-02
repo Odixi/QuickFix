@@ -19,6 +19,9 @@ public class SpaceShip : MonoBehaviour
             isFunctional = value;
             if (value)
             {
+                var rb = GetComponent<Rigidbody2D>();
+                rb.freezeRotation = false;
+                rb.constraints = RigidbodyConstraints2D.None;
                 foreach(var c in colliders)
                 {
                     if (c != null)
