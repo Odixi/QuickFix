@@ -135,16 +135,18 @@ public class GameController : MonoBehaviour
         if (Input.anyKey == false) anyKeyUp = true;
         if (State == GameState.GameOver)
         {
+            timeTaken += Time.deltaTime;
             GameOver.SetActive(true);
-            if (Input.anyKey && anyKeyUp) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            if (Input.anyKey && anyKeyUp && timeTaken > 2) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else GameOver.SetActive(false);
 
         if (State == GameState.Winner)
         {
+            timeTaken += Time.deltaTime;
             RedWin.SetActive(Winner == Team.Red);
             BlueWin.SetActive(Winner == Team.Blue);
-            if (Input.anyKey && anyKeyUp) State = GameState.GameOver;
+            if (Input.anyKey && anyKeyUp && timeTaken > 2) BeginGameOver();
         }
         else
         {
@@ -155,12 +157,14 @@ public class GameController : MonoBehaviour
 
     public void PlayerWin(Team winningTeam)
     {
+        timeTaken = 0;
         Winner = winningTeam;
         State = GameState.Winner;
     }
 
     void BeginGameOver()
     {
+        timeTaken = 0;
         State = GameState.GameOver;
     }
 
