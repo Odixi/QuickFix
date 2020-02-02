@@ -59,7 +59,8 @@ public class SpaceShip : MonoBehaviour
 
     private void LateUpdate()
     {
-        ThrusterSound.volume = Math.Max(Math.Min(thrustAmount / 100, 0.7f), 0.1f);
+        print(thrustAmount);
+        ThrusterSound.volume = thrustAmount > 0 ? 1f : 0f;
         thrustAmount = 0;
     }
 

@@ -3217,7 +3217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c733542513b90545b78d5ce7bc83135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlatformPlayTime: 90
+  PlatformPlayTime: 30
   FlightPlayTime: 90
   PlatformingPlayer1: {fileID: 430392184}
   PlatformingPlayer2: {fileID: 2136676234}
@@ -5395,7 +5395,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f6028d80a23e2b347bf2a18297663944, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.383
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8346,7 +8346,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
