@@ -19,6 +19,7 @@ public class PlatformingPlayer : MonoBehaviour
     public float WallMinDistanceToMove = 0.3f;
     public float FeetCheckRadius = 0.5f;
     public float MinimumWalkSoundInterval = 0.6f;
+    public float CoyoteTime = 0.4f;
     public int PlayerNumber;
     public Transform Feet;
     public Transform Hands;
@@ -33,6 +34,7 @@ public class PlatformingPlayer : MonoBehaviour
     private Vector2 lastFacingDirection = Vector2.right;
     private Animator animator;
     private float lastStepTime = 0f;
+    private float lastTimeWasGrounded = 0f;
 
     private bool isGrounded => Physics2D.CircleCast(transform.position, FeetCheckRadius, Vector2.down, Vector2.Distance(transform.position, Feet.position)).collider != null;
 
@@ -71,8 +73,11 @@ public class PlatformingPlayer : MonoBehaviour
         int playerFlip = PlayerNumber == 1 ? 1 : -1;
         if (inputX != 0) gameObject.GetComponent<SpriteRenderer>().flipX = inputX * playerFlip > 0;
 
+        if (isGrounded) lastTimeWasGrounded = Time.time;
+
         if (inputY == 0) jumpButtonReleased = true;
-        if (isGrounded)
+
+        if (isGrounded || Time.time < lastTimeWasGrounded + CoyoteTime)
         {
             if (inputY > 0 && !jumpUsed) Jump();
             if (jumpButtonReleased) jumpUsed = false;

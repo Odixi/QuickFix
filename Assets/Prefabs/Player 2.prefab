@@ -167,6 +167,7 @@ MonoBehaviour:
   WallMinDistanceToMove: 0.3
   FeetCheckRadius: 0.1
   MinimumWalkSoundInterval: 0.6
+  CoyoteTime: 0.2
   PlayerNumber: 2
   Feet: {fileID: 219910494619568185}
   Hands: {fileID: 8827841948689689132}
